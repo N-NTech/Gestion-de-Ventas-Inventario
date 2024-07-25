@@ -5,3 +5,8 @@ body{
     background-color: #181E38;
     color: white;
 }
+app-root {
+    display: flex;
+    justify-content: start;
+    flex-direction: row;
+}
