@@ -1,0 +1,71 @@
+div{
+    background-color: #0B0D26;
+    color: white;
+    padding-bottom: 20px;
+}
+
+
+i{
+    margin: 0px 5px;
+}
+
+.boton-pedidos i{
+    font-size: 25px;;
+}
+
+.bi-box-seam{
+    color:#544C9B
+}
+
+.bi-archive{
+    color: #544C9B;
+}
+
+.bi-cart-x{
+    color: #544C9B;
+}
+
+.bi-plus-square-fill{
+    color: #9990E4;
+    width: 16px;
+    height: 16px;
+}
+
+.boton-pedidos{
+    background-color: #181E38;
+    color: #7D7878;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px 5px 20px;
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.3s ease;
+}
+
+.boton-pedidos:hover {
+    background-color: #282c54;
+    color: #ffffff;
+    transform: scale(1.02);
+}
+
+button p{
+    font-weight: bolder;
+}
+
+.table{
+    color: #7D7878;
+    margin-top: 20px;
+}
+
+
+.table thead th{
+    color: white;
+    border: red;
+}
+
+.table-primary{
+    --bs-table-bg: #181E38;
+    --bs-table-striped-bg: #151932;
+    --bs-table-striped-color: #7D7878;
+    border: #000000;
+}
