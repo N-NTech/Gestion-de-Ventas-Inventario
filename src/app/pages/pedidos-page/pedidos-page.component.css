@@ -2,6 +2,7 @@ div{
     background-color: #0B0D26;
     color: white;
     padding-bottom: 20px;
+    
 }
 
 
@@ -55,17 +56,21 @@ button p{
 .table{
     color: #7D7878;
     margin-top: 20px;
+    
 }
 
 
 .table thead th{
     color: white;
-    border: red;
+    border: red ;
 }
+
+
 
 .table-primary{
     --bs-table-bg: #181E38;
     --bs-table-striped-bg: #151932;
     --bs-table-striped-color: #7D7878;
     border: #000000;
+    
 }
