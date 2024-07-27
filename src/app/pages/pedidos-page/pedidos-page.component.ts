@@ -130,7 +130,7 @@ export class PedidosPageComponent implements OnInit {
             return 'warning';
 
         case Estado.SinStock:
-            return 'test';
+            return 'secondary';
 
         default:
             return undefined; 
@@ -140,21 +140,21 @@ export class PedidosPageComponent implements OnInit {
     colorEstado(estado: Estado): any | undefined {
       switch (estado) {
         case Estado.NuevoPedido:
-            return 'darkgreen';
+            return '#014811';
         case Estado.PagoPendiente:
-            return 'darkorange';
+            return '#644200';
         case Estado.EnvioPendiente:
-            return 'darkyellow';
+            return '#77791d';
         case Estado.Entregado:
-            return 'darklightblue';
+            return '#005176';
         case Estado.Cancelado:
-            return 'darkred';
+            return '#460000';
 
         case Estado.RetiroPendiente:
-            return 'darkorange';
+            return '#644200';
 
         case Estado.SinStock:
-            return 'gray';
+            return '#2d2d30';
 
         default:
             return undefined; 
