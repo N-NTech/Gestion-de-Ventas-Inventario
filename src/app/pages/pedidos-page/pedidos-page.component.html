@@ -101,7 +101,11 @@
                         <td>
                             <p-tag 
                                 [value]="pedido.estado" 
-                                [severity]="getSeverity(pedido.estado)" />
+                                [severity]="getSeverity(pedido.estado)" 
+                                [style]="{'background-color': colorEstado(pedido.estado)}"
+
+                                />
+                                
                         </td>
                         <td>
                             {{ pedido.envio }}

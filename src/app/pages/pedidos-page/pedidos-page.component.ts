@@ -20,6 +20,7 @@ import { Estado } from './estado.enum';
 })
 
 export class PedidosPageComponent implements OnInit {
+
     
   Estado: Estado | null = null;
   estadoSeleccionado: Estado | null = null;
@@ -117,7 +118,7 @@ export class PedidosPageComponent implements OnInit {
         case Estado.NuevoPedido:
             return 'success';
         case Estado.PagoPendiente:
-            return 'warning';
+            return 'contrast';
         case Estado.EnvioPendiente:
             return 'warning';
         case Estado.Entregado:
@@ -129,12 +130,37 @@ export class PedidosPageComponent implements OnInit {
             return 'warning';
 
         case Estado.SinStock:
-            return 'secondary';
+            return 'test';
 
         default:
             return undefined; 
         }
     }
+
+    colorEstado(estado: Estado): any | undefined {
+      switch (estado) {
+        case Estado.NuevoPedido:
+            return 'darkgreen';
+        case Estado.PagoPendiente:
+            return 'darkorange';
+        case Estado.EnvioPendiente:
+            return 'darkyellow';
+        case Estado.Entregado:
+            return 'darklightblue';
+        case Estado.Cancelado:
+            return 'darkred';
+
+        case Estado.RetiroPendiente:
+            return 'darkorange';
+
+        case Estado.SinStock:
+            return 'gray';
+
+        default:
+            return undefined; 
+        }
+    }
+  
 
     filter(event:any){
         console.log(event);
