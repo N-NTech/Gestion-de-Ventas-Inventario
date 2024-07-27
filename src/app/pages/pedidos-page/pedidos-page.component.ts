@@ -21,29 +21,74 @@ import { Estado } from './estado.enum';
 
 export class PedidosPageComponent implements OnInit {
     
-  Estado = Estado;
+  Estado: Estado | null = null;
   estadoSeleccionado: Estado | null = null;
 
-  estadoOptions!:any []
+  estadoOptions!: {label:any,value:any}[]
   
-  pedidos = [
-      {
-          id: 1,
-          nombre: 'Nicolás Arcamone',
-          estado: Estado.NuevoPedido,
-          producto: 'Nike- Jordan hight - Rosa y Negro - 45',
-          fecha: '11/02/2024',
-          precio: '$23.000',
-          envio: 'Caballito'
+  pedidos =  [
+    {
+      id: 1,
+      nombre: 'Nicolás Arcamone',
+      estado: Estado.NuevoPedido,
+      producto: 'Nike- Jordan hight - Rosa y Negro - 45',
+      fecha: new Date(2024,4-1,11),
+      precio: '$23.000',
+      envio: 'Caballito'
+    },
+    {
+      id: 2,
+      nombre: 'María González',
+      estado: Estado.PagoPendiente,
+      producto: 'Adidas UltraBoost - Negro - 42',
+      fecha: new Date(2024,4-1,12),
+      precio: '$19.000',
+      envio: 'Palermo'
+    },
+    {
+      id: 3,
+      nombre: 'Juan Pérez',
+      estado: Estado.EnvioPendiente,
+      producto: 'Puma RS-X - Azul - 44',
+      fecha: new Date(2024,4-1,11),
+      precio: '$21.000',
+      envio: 'Belgrano'
+    },
+    {
+      id: 4,
+      nombre: 'Laura Martínez',
+      estado: Estado.Entregado,
+      producto: 'New Balance 574 - Gris - 40',
+      fecha: new Date(2024,4-1,14),
+      precio: '$25.000',
+      envio: 'Recoleta'
+    },
+    {
+      id: 5,
+      nombre: 'Carlos Fernández',
+      estado: Estado.Cancelado,
+      producto: 'Converse Chuck Taylor - Blanco - 43',
+      fecha: new Date(2024,4-1,15),
+      precio: '$15.000',
+      envio: 'San Telmo'
+    },
+    {
+        id: 6,
+        nombre: 'Carlos Fernández',
+        estado: Estado.RetiroPendiente,
+        producto: 'Converse Chuck Taylor - Blanco - 43',
+        fecha: new Date(2024,4-1,15),
+        precio: '$15.000',
+        envio: 'San Telmo'
       },
       {
-          id: 2,
-          nombre: 'Nahuel Monje',
-          estado: Estado.Cancelado,
-          producto: 'Puma - Suede Xl - Negro y Blanco - 40',
-          fecha: '10/03/2024',
-          precio: '$30.000',
-          envio: 'Caballito'
+        id: 7,
+        nombre: 'Carlos Fernández',
+        estado: Estado.SinStock,
+        producto: 'Converse Chuck Taylor - Blanco - 43',
+        fecha: new Date(2024,4-1,15),
+        precio: '$15.000',
+        envio: 'San Telmo'
       }
   ];
 
@@ -58,13 +103,16 @@ export class PedidosPageComponent implements OnInit {
     this.estadoOptions = [
               { label: 'Nuevo Pedido', value: Estado.NuevoPedido },
               { label: 'Pago Pendiente', value: Estado.PagoPendiente },
+              { label: 'Retiro Pendiente', value: Estado.RetiroPendiente },
               { label: 'Envío Pendiente', value: Estado.EnvioPendiente },
               { label: 'Entregado', value: Estado.Entregado },
-              { label: 'Cancelado', value: Estado.Cancelado }
+              { label: 'Cancelado', value: Estado.Cancelado },
+              { label: 'Sin Stock', value: Estado.SinStock },
+
           ]
   }
 
-  getSeverity(estado: Estado): "success" | "secondary" | "info" | "warning" | "danger" | "contrast" | undefined {
+  getSeverity(estado: Estado): any | undefined {
     switch (estado) {
         case Estado.NuevoPedido:
             return 'success';
@@ -73,12 +121,24 @@ export class PedidosPageComponent implements OnInit {
         case Estado.EnvioPendiente:
             return 'warning';
         case Estado.Entregado:
-            return 'success';
+            return 'primary';
         case Estado.Cancelado:
             return 'danger';
+
+        case Estado.RetiroPendiente:
+            return 'warning';
+
+        case Estado.SinStock:
+            return 'secondary';
+
         default:
             return undefined; 
         }
+    }
+
+    filter(event:any){
+        console.log(event);
+        return this.pedidos;
     }
 
     

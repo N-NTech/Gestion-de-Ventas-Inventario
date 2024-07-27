@@ -26,7 +26,7 @@
                 dataKey="id"
                 [rows]="10"
                 [globalFilterFields]="['nombre', 'producto', 'fecha', 'estado','envio']"
-                [tableStyle]="{ 'max-width': '65rem' }"
+                [tableStyle]="{ 'max-width': '100%' }"
             >
                 <ng-template pTemplate="header">
                     <tr>
@@ -40,22 +40,31 @@
                         <th>
                             <p-columnFilter 
                                 type="text"
+                                class=""
                                 field="nombre" 
                                 ariaLabel="Filter Name"
+                                showMenu="false"
+                                matchMode="contains"
+                                
                             />
                         </th>
                         <th>
                             <p-columnFilter 
                                 type="text"
                                 field="producto"                     
-                                ariaLabel="Filter Product" />
+                                ariaLabel="Filter Product" 
+                                showMenu="false"
+                                matchMode="contains"
+                                />
                         </th>
                         <th>
                             <p-columnFilter 
                                 type="text"
                                 field="fecha"
-                                placeholder="Search by date" 
-                                ariaLabel="Filter Date" />
+                                ariaLabel="Filter Date"
+                                showMenu="false"
+                                matchMode="contains"
+                                />
                         </th>
                       
                         <th>
@@ -71,7 +80,10 @@
                         </th>
                         
                         <th>
-                            <p-columnFilter field="envio" matchMode="in" [showMenu]="false" />
+                            <p-columnFilter 
+                            field="envio" 
+                            matchMode="contains" 
+                            [showMenu]="false" />
                         </th>
                     </tr>
                 </ng-template>
@@ -84,7 +96,7 @@
                             {{ pedido.producto }}
                         </td>
                         <td>
-                            {{ pedido.fecha | date }}
+                            {{ pedido.fecha | date: 'dd/MM/yyyy' }}
                         </td>
                         <td>
                             <p-tag 

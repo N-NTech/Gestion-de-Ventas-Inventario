@@ -1,8 +1,10 @@
 div{
     background-color: #0B0D26;
+    background-color: #ff1e00;
     color: white;
     padding-bottom: 20px;
-    
+    width: max-content;
+    /* width: 100%; */
 }
 
 
@@ -65,6 +67,16 @@ button p{
     border: red ;
 }
 
+.form-select{
+    margin-left: 12%;
+    border-radius: 6px;
+}
+
+.form-select:focus{
+    border-color: #9990E4;
+    box-shadow: 0 0 0 0.15rem #9990E4;
+}
+
 
 
 .table-primary{
@@ -86,7 +98,17 @@ button p{
     color: white;
 }
 
+.card{
+    text-align: center;
+}
+
+th div{
+    display: flex;
+    justify-content: center;
+}
+
 .card td {
     background-color: #151932;
     color: #a5a5a5;
+    text-align: center;
 }

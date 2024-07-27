@@ -8,6 +8,21 @@ body{
 }
 app-root {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     flex-direction: row;
+}
+
+.p-inputtext{
+    height: 37.6px;
+    padding: 10px;
+    margin-left: 12%;
+}
+
+.p-inputtext:focus{
+    box-shadow: 0 0 0 0.15rem #9990E4;
+    border: none;
+}
+
+.p-column-filter-clear-button{
+    /* margin-left: 12%; */
 }
