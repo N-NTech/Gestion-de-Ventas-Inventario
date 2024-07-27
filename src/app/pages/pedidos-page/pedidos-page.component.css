@@ -74,3 +74,19 @@ button p{
     border: #000000;
     
 }
+
+
+
+
+
+/* tabla */
+
+.card th {
+    background-color: #181E38; /* Color del texto, si es necesario */
+    color: white;
+}
+
+.card td {
+    background-color: #151932;
+    color: #a5a5a5;
+}

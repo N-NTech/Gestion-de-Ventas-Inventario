@@ -18,59 +18,91 @@
             </button>
         </div>
 
-        <table class="table table-primary table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Producto</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Precio</th>
-                    <th scope="col">Envio/Lugar</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                    <th scope="row">Lola Montero</th>
-                    <td>Nuevo Pedido</td>
-                    <td>Nike- Jordan high - Rosa y Negro - 45</td>
-                    <td>24/07/2024</td>
-                    <td>$35.000</td>
-                    <td>Caballito</td>
-                </tr>
-                <tr>
-                    <th scope="row">Lola Montero</th>
-                    <td>Nuevo Pedido</td>
-                    <td>Nike- Jordan high - Rosa y Negro - 45</td>
-                    <td>24/07/2024</td>
-                    <td>$35.000</td>
-                    <td>Caballito</td>
-                </tr>
-                <tr>
-                    <th scope="row">Lola Montero</th>
-                    <td>Nuevo Pedido</td>
-                    <td>Nike- Jordan high - Rosa y Negro - 45</td>
-                    <td>24/07/2024</td>
-                    <td>$35.000</td>
-                    <td>Caballito</td>
-                </tr>
-                <tr>
-                    <th scope="row">Lola Montero</th>
-                    <td>Nuevo Pedido</td>
-                    <td>Nike- Jordan high - Rosa y Negro - 45</td>
-                    <td>24/07/2024</td>
-                    <td>$35.000</td>
-                    <td>Caballito</td>
-                </tr>
-                <tr>
-                    <th scope="row">Lola Montero</th>
-                    <td>Nuevo Pedido</td>
-                    <td>Nike- Jordan high - Rosa y Negro - 45</td>
-                    <td>24/07/2024</td>
-                    <td>$35.000</td>
-                    <td>Caballito</td>
-                </tr>
-              </tbody>
-        </table>
+        <!-- arranca la tabla -->
+        <div class="card">
+            <p-table
+                #dt2
+                [value]="pedidos"
+                dataKey="id"
+                [rows]="10"
+                [globalFilterFields]="['nombre', 'producto', 'fecha', 'estado','envio']"
+                [tableStyle]="{ 'max-width': '65rem' }"
+            >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width:20%" >Nombre</th>
+                        <th style="width:20%">Producto</th>
+                        <th style="width:20%">Fecha</th>
+                        <th style="width:20%">Estado</th>
+                        <th style="width:20%">Envio/Lugar</th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <p-columnFilter 
+                                type="text"
+                                field="nombre" 
+                                ariaLabel="Filter Name"
+                            />
+                        </th>
+                        <th>
+                            <p-columnFilter 
+                                type="text"
+                                field="producto"                     
+                                ariaLabel="Filter Product" />
+                        </th>
+                        <th>
+                            <p-columnFilter 
+                                type="text"
+                                field="fecha"
+                                placeholder="Search by date" 
+                                ariaLabel="Filter Date" />
+                        </th>
+                      
+                        <th>
+                            <p-columnFilter field="estado" matchMode="equals" [showMenu]="false">
+                              <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                <select class="form-select" aria-label="Filter Status" [(ngModel)]="estadoSeleccionado" (ngModelChange)="filter($event)">
+                                  <option *ngFor="let option of estadoOptions" [value]="option.value">
+                                    <p-tag [value]="option.label" [severity]="getSeverity(option.value)"></p-tag>
+                                  </option>
+                                </select>
+                              </ng-template>
+                            </p-columnFilter>
+                        </th>
+                        
+                        <th>
+                            <p-columnFilter field="envio" matchMode="in" [showMenu]="false" />
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-pedido>
+                    <tr>
+                        <td>
+                            {{ pedido.nombre }}
+                        </td>
+                        <td>
+                            {{ pedido.producto }}
+                        </td>
+                        <td>
+                            {{ pedido.fecha | date }}
+                        </td>
+                        <td>
+                            <p-tag 
+                                [value]="pedido.estado" 
+                                [severity]="getSeverity(pedido.estado)" />
+                        </td>
+                        <td>
+                            {{ pedido.envio }}
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="5">No orders found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
     
+        <!-- termina container -->
 </div>
