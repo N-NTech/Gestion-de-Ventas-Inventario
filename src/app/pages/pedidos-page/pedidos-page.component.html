@@ -1,7 +1,9 @@
-<div class="container">
-    <h1><i class="bi bi-box-seam"></i> Pedidos</h1>
-    <div class="container">
-        <div class="col-12">
+<div class="container-fluid">
+    <div class="row row-principal">
+        <div class="col col-titulo">
+            <h1><i class="bi bi-box-seam"></i> Pedidos</h1>
+        </div>
+        <div class="col-12 col-botones">
             <button type="button" class="btn boton-pedidos">
                 <p>
                     <i class="bi bi-archive"></i> 
@@ -10,7 +12,7 @@
                 </p>
             </button>
 
-            <button type="button" class="btn boton-pedidos">
+            <button type="button" class="btn boton-faltantes">
                 <p>
                     <i class="bi bi-cart-x"></i>
                     Productos faltantes
@@ -18,7 +20,8 @@
             </button>
         </div>
 
-        <!-- arranca la tabla -->
+        <div class="col col-tabla">
+             <!-- arranca la tabla -->
         <div class="card">
             <p-table
                 #dt2
@@ -26,7 +29,7 @@
                 dataKey="id"
                 [rows]="10"
                 [globalFilterFields]="['nombre', 'producto', 'fecha', 'estado','envio']"
-                [tableStyle]="{ 'max-width': '100%' }"
+                [tableStyle]="{ 'width': 'max-content' }"
             >
                 <ng-template pTemplate="header">
                     <tr>
@@ -119,6 +122,9 @@
                 </ng-template>
             </p-table>
         </div>
+    
+        </div>
+    </div>
     
         <!-- termina container -->
 </div>

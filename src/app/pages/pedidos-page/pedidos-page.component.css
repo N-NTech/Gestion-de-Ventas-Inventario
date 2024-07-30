@@ -1,16 +1,33 @@
-div{
+.container-fluid{
     background-color: #0B0D26;
-    background-color: #ff1e00;
-    color: white;
-    padding-bottom: 20px;
-    width: max-content;
-    /* width: 100%; */
+    width: 100%;
+    border-radius: 8px;
+}
+.row-principal {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 3em ;
 }
 
-
-i{
-    margin: 0px 5px;
+.col-titulo {
+    padding: 1em ;
+    color: #ffffff;
+    display: flex;
+    justify-content: start;
 }
+
+.col-botones {
+    display: flex;
+    justify-content: start;
+}
+
+.col-tabla {
+    display: flex;
+    justify-content: start;
+    padding-bottom: 1em;
+}
+
 
 .boton-pedidos i{
     font-size: 25px;;
@@ -41,10 +58,26 @@ i{
     border-radius: 5px;
     padding: 10px 20px 5px 20px;
     cursor: pointer;
-    margin: 10px;
+    margin-bottom: 10px;
     transition: transform 0.3s ease;
 }
 
+.boton-faltantes{
+    background-color: #181E38;
+    color: #7D7878;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px 5px 20px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    transition: transform 0.3s ease;
+}
+.boton-faltantes:hover {
+    background-color: #282c54;
+    color: #ffffff;
+    transform: scale(1.02);
+}
 .boton-pedidos:hover {
     background-color: #282c54;
     color: #ffffff;
@@ -99,6 +132,7 @@ button p{
 }
 
 .card{
+    border: none;
     text-align: center;
 }
 
