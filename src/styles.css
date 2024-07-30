@@ -12,6 +12,7 @@ app-root {
     flex-direction: row;
 }
 
+/* Input del filtro */
 .p-inputtext{
     height: 37.6px;
     padding: 10px;
@@ -21,4 +22,14 @@ app-root {
 .p-inputtext:focus{
     box-shadow: 0 0 0 0.15rem #9990E4;
     border: none;
+}
+
+/* Boton de limpiar filtro */
+.p-column-filter-clear-button{
+    margin-left: -10px;
+}
+
+.p-column-filter-clear-button:hover{
+    background-color: white;
+    color:black;
 }
