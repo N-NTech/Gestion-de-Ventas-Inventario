@@ -234,7 +234,7 @@ export class PedidosPageComponent implements OnInit {
         this.listaFiltrada = this.modelosDisponibles.filter(modelo => modelo.toLowerCase().includes(query));
       }
 
-      filterEstado(event: any) {
+      filter(event: any) {
         console.log(event);
         return this.pedidos;
     }

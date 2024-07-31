@@ -53,10 +53,11 @@
                                 <p-columnFilter field="estado" matchMode="equals" [showMenu]="false">
                                     <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                                         <select class="form-select" aria-label="Filter Status"
-                                            [(ngModel)]="estadoSeleccionado" (ngModelChange)="filterEstado($event)">
+                                            [(ngModel)]="estadoSeleccionado" (ngModelChange)="filter($event)">
                                             <option *ngFor="let option of estadoOptions" [value]="option.value">
                                                 <p-tag [value]="option.label"
                                                     [style]="{'background-color': colorEstado(option.value), 'cursor': 'pointer', 'user-select': 'none'}"
+                                                    [severity]="getSeverity(option.value)"
                                                     ></p-tag>
                                             </option>
                                         </select>
@@ -83,9 +84,13 @@
                                 {{ pedido.fecha | date: 'dd/MM/yyyy' }}
                             </td>
                             <td>
-                                <p-tag [value]="pedido.estado"
+                                <p-tag 
+                                    [severity]="getSeverity(pedido.estado)"
+                                    [value]="pedido.estado"
                                     [style]="{'background-color': colorEstado(pedido.estado), 'cursor': 'pointer', 'user-select': 'none'}"
-                                    (click)="cambiarEstado(pedido)" />
+                                    (click)="cambiarEstado(pedido)"
+                                     />
+                                    
                             </td>
                             <td>
                                 {{ pedido.lugar }}
