@@ -13,7 +13,7 @@ app-root {
 }
 
 /* Input del filtro */
-.p-inputtext{
+p-columnfilterformelement .p-inputtext{
     height: 37.6px;
     padding: 10px;
     margin-left: 12%;

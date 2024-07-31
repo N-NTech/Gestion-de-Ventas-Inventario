@@ -10,22 +10,61 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Estado } from './estado.enum';
+import { SpeedDialModule } from 'primeng/speeddial';
+import { DialogModule } from 'primeng/dialog';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { CalendarModule } from 'primeng/calendar';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CheckboxModule } from 'primeng/checkbox';
+interface AutoCompleteCompleteEvent {
+    originalEvent: Event;
+    query: string;
+}
 
 @Component({
     selector: 'table-filter-basic-demo',
     templateUrl: 'pedidos-page.component.html',
     styleUrl: 'pedidos-page.component.css',
     standalone: true,
-    imports: [FormsModule, TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule, DropdownModule, HttpClientModule, CommonModule]
+    imports: [FormsModule, TableModule, TagModule, IconFieldModule, InputTextModule, 
+        InputIconModule, MultiSelectModule, DropdownModule, HttpClientModule, CommonModule, 
+        SpeedDialModule, DialogModule, AutoCompleteModule, CalendarModule,InputNumberModule,CheckboxModule]
 })
 
 export class PedidosPageComponent implements OnInit {
+    saveProduct() {
+        throw new Error('Method not implemented.');
+    }
+    hideDialog() {
+        throw new Error('Method not implemented.');
+    }
+
+
 
 
     Estado: Estado | null = null;
     estadoSeleccionado: Estado | null = null;
 
     estadoOptions!: { label: any, value: any }[]
+
+    showDialog = false;
+
+    selectedPedido = {
+        id: 1,
+        nombre: 'Nicolás Arcamone',
+        estado: Estado.NuevoPedido,
+        producto: 'Nike- Jordan hight - Rosa y Negro - 45',
+        fecha: new Date(2024, 4 - 1, 11),
+        precio: 23000,
+        lugar: 'Caballito',
+        esEnvio: false
+    };
+
+    numeroRandom = 22
+
+    modelosDisponibles = ["Nike", "Adidas", "Puma", "New Balance", "Converse", "Reebok", "Vans", "Fila", "Skechers", "Under Armour"]
+    listaFiltrada: any[] = [];
+
 
     pedidos = [
         {
@@ -34,8 +73,9 @@ export class PedidosPageComponent implements OnInit {
             estado: Estado.NuevoPedido,
             producto: 'Nike- Jordan hight - Rosa y Negro - 45',
             fecha: new Date(2024, 4 - 1, 11),
-            precio: '$23.000',
-            envio: 'Caballito'
+            precio: 23000,
+            lugar: 'Caballito',
+            esEnvio: false
         },
         {
             id: 2,
@@ -43,8 +83,9 @@ export class PedidosPageComponent implements OnInit {
             estado: Estado.PagoPendiente,
             producto: 'Adidas UltraBoost - Negro - 42',
             fecha: new Date(2024, 4 - 1, 12),
-            precio: '$19.000',
-            envio: 'Palermo'
+            precio: 19.000,
+            lugar: 'Palermo',
+            esEnvio: true
         },
         {
             id: 3,
@@ -52,8 +93,9 @@ export class PedidosPageComponent implements OnInit {
             estado: Estado.EnvioPendiente,
             producto: 'Puma RS-X - Azul - 44',
             fecha: new Date(2024, 4 - 1, 11),
-            precio: '$21.000',
-            envio: 'Belgrano'
+            precio: 21.000,
+            lugar: 'Belgrano',
+            esEnvio: false
         },
         {
             id: 4,
@@ -61,8 +103,9 @@ export class PedidosPageComponent implements OnInit {
             estado: Estado.Entregado,
             producto: 'New Balance 574 - Gris - 40',
             fecha: new Date(2024, 4 - 1, 14),
-            precio: '$25.000',
-            envio: 'Recoleta'
+            precio: 25.000,
+            lugar: 'Recoleta',
+            esEnvio: false
         },
         {
             id: 5,
@@ -70,8 +113,9 @@ export class PedidosPageComponent implements OnInit {
             estado: Estado.Cancelado,
             producto: 'Converse Chuck Taylor - Blanco - 43',
             fecha: new Date(2024, 4 - 1, 15),
-            precio: '$15.000',
-            envio: 'San Telmo'
+            precio: 15.000,
+            lugar: 'San Telmo',
+            esEnvio: true
         },
         {
             id: 6,
@@ -79,8 +123,9 @@ export class PedidosPageComponent implements OnInit {
             estado: Estado.RetiroPendiente,
             producto: 'Converse Chuck Taylor - Blanco - 43',
             fecha: new Date(2024, 4 - 1, 15),
-            precio: '$15.000',
-            envio: 'San Telmo'
+            precio: 15.000,
+            lugar: 'San Telmo',
+            esEnvio: true
         },
         {
             id: 7,
@@ -88,8 +133,9 @@ export class PedidosPageComponent implements OnInit {
             estado: Estado.SinStock,
             producto: 'Converse Chuck Taylor - Blanco - 43',
             fecha: new Date(2024, 4 - 1, 15),
-            precio: '$15.000',
-            envio: 'San Telmo'
+            precio: 5.000,
+            lugar: 'San Telmo',
+            esEnvio: true
         }
     ];
 
@@ -173,10 +219,22 @@ export class PedidosPageComponent implements OnInit {
         })
     }
 
+    editarPedido(pedido: any) {
+        this.selectedPedido = pedido;
+        this.showDialog = true;
+        console.log(pedido)
+    }
 
+    eliminarPedido(pedido: any) {
+        console.log("Eliminar pedido", pedido)
+    }
 
+    filtrarModelos(event: AutoCompleteCompleteEvent) {
+        const query = event.query.toLowerCase();
+        this.listaFiltrada = this.modelosDisponibles.filter(modelo => modelo.toLowerCase().includes(query));
+      }
 
-    filter(event: any) {
+      filterEstado(event: any) {
         console.log(event);
         return this.pedidos;
     }
@@ -184,3 +242,5 @@ export class PedidosPageComponent implements OnInit {
 
 
 }
+
+

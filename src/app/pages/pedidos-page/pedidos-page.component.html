@@ -6,7 +6,7 @@
         <div class="col-12 col-botones">
             <button type="button" class="btn boton-pedidos">
                 <p>
-                    <i class="bi bi-archive"></i> 
+                    <i class="bi bi-archive"></i>
                     Añadir pedido
                     <i class="bi bi-plus-square-fill"></i>
                 </p>
@@ -21,109 +21,174 @@
         </div>
 
         <div class="col col-tabla">
-             <!-- arranca la tabla -->
-        <div class="card">
-            <p-table
-                #dt2
-                [value]="pedidos"
-                dataKey="id"
-                [rows]="10"
-                [globalFilterFields]="['nombre', 'producto', 'fecha', 'estado','envio']"
-                [tableStyle]="{ 'width': 'max-content' }"
-            >
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th style="width:20%" >Nombre</th>
-                        <th style="width:20%">Producto</th>
-                        <th style="width:20%">Fecha</th>
-                        <th style="width:20%">Estado</th>
-                        <th style="width:20%">Envio/Lugar</th>
-                    </tr>
-                    <tr>
-                        <th>
-                            <p-columnFilter 
-                                type="text"
-                                class=""
-                                field="nombre" 
-                                ariaLabel="Filter Name"
-                                showMenu="false"
-                                matchMode="contains"
-                                
-                            />
-                        </th>
-                        <th>
-                            <p-columnFilter 
-                                type="text"
-                                field="producto"                     
-                                ariaLabel="Filter Product" 
-                                showMenu="false"
-                                matchMode="contains"
-                                />
-                        </th>
-                        <th>
-                            <p-columnFilter 
-                                type="text"
-                                field="fecha"
-                                ariaLabel="Filter Date"
-                                showMenu="false"
-                                matchMode="contains"
-                                />
-                        </th>
-                      
-                        <th>
-                            <p-columnFilter field="estado" matchMode="equals" [showMenu]="false">
-                              <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                <select class="form-select" aria-label="Filter Status" [(ngModel)]="estadoSeleccionado" (ngModelChange)="filter($event)">
-                                  <option *ngFor="let option of estadoOptions" [value]="option.value">
-                                    <p-tag [value]="option.label" [severity]="getSeverity(option.value)"></p-tag>
-                                  </option>
-                                </select>
-                              </ng-template>
-                            </p-columnFilter>
-                        </th>
+            <!-- arranca la tabla -->
+            <div class="card">
+                <p-table #dt2 [value]="pedidos" dataKey="id" [rows]="10"
+                    [globalFilterFields]="['nombre', 'producto', 'fecha', 'estado','lugar']"
+                    [tableStyle]="{ 'width': 'max-content' }">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width:20%">Nombre</th>
+                            <th style="width:20%">Producto</th>
+                            <th style="width:20%">Fecha</th>
+                            <th style="width:20%">Estado</th>
+                            <th style="width:20%">Envio/Lugar</th>
+                            <th style="width: 20%;">Editar</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <p-columnFilter type="text" class="" field="nombre" ariaLabel="Filter Name"
+                                    showMenu="false" matchMode="contains" />
+                            </th>
+                            <th>
+                                <p-columnFilter type="text" field="producto" ariaLabel="Filter Product" showMenu="false"
+                                    matchMode="contains" />
+                            </th>
+                            <th>
+                                <p-columnFilter type="text" field="fecha" ariaLabel="Filter Date" showMenu="false"
+                                    matchMode="contains" />
+                            </th>
+
+                            <th>
+                                <p-columnFilter field="estado" matchMode="equals" [showMenu]="false">
+                                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                        <select class="form-select" aria-label="Filter Status"
+                                            [(ngModel)]="estadoSeleccionado" (ngModelChange)="filterEstado($event)">
+                                            <option *ngFor="let option of estadoOptions" [value]="option.value">
+                                                <p-tag [value]="option.label"
+                                                    [style]="{'background-color': colorEstado(option.value), 'cursor': 'pointer', 'user-select': 'none'}"
+                                                    ></p-tag>
+                                            </option>
+                                        </select>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </th>
+
+                            <th>
+                                <p-columnFilter field="envio" matchMode="contains" [showMenu]="false" />
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-pedido>
+                        <tr>
+                            <td>
+                                {{ pedido.nombre }}
+                            </td>
+                            <td>
+                                {{ pedido.producto }}
+                            </td>
+                            <td>
+                                {{ pedido.fecha | date: 'dd/MM/yyyy' }}
+                            </td>
+                            <td>
+                                <p-tag [value]="pedido.estado"
+                                    [style]="{'background-color': colorEstado(pedido.estado), 'cursor': 'pointer', 'user-select': 'none'}"
+                                    (click)="cambiarEstado(pedido)" />
+                            </td>
+                            <td>
+                                {{ pedido.lugar }}
+                            </td>
+                            <td style="display: flex;">
+                                <p-button
+                                    [style]="{'border' : 'solid 2px','border-radius': '40px', 'color' : '#006007'}"
+                                    icon="bi bi-pencil-fill" class="mx-2" [outlined]="true"
+                                    (onClick)="editarPedido(pedido)" />
+
+                                <p-button
+                                    [style]="{'border' : 'solid 2px','border-radius': '40px', 'color' : '#700A20'}"
+                                    icon="bi bi-trash-fill" severity="danger" [outlined]="true"
+                                    (onClick)="eliminarPedido(pedido)" />
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="5">No se econtraron pedidos.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+                <p-dialog [(visible)]="showDialog" [style]="{ width: '550px', height: '600px'}" header="Product Details" [modal]="true"
+                    styleClass="p-fluid">
+                    <ng-template pTemplate="content">
                         
-                        <th>
-                            <p-columnFilter 
-                            field="envio" 
-                            matchMode="contains" 
-                            [showMenu]="false" />
-                        </th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-pedido>
-                    <tr>
-                        <td>
-                            {{ pedido.nombre }}
-                        </td>
-                        <td>
-                            {{ pedido.producto }}
-                        </td>
-                        <td>
-                            {{ pedido.fecha | date: 'dd/MM/yyyy' }}
-                        </td>
-                        <td>
-                            <p-tag 
-                                [value]="pedido.estado" 
-                                [severity]="getSeverity(pedido.estado)" 
-                                [style]="{'background-color': colorEstado(pedido.estado), 'cursor': 'pointer', 'user-select': 'none'}"
-                                (click)="cambiarEstado(pedido)"
-                                />
-                        </td>
-                        <td>
-                            {{ pedido.envio }}
-                        </td>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="emptymessage">
-                    <tr>
-                        <td colspan="5">No orders found.</td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </div>
-    
+                        <div class="field">
+                            <label for="name">Cliente</label>
+                            <input type="text" pInputText id="name" [(ngModel)]="selectedPedido.nombre" required autofocus />
+                        </div>
+
+
+                        <div class="field">
+                            <label for="estado">Estado</label>
+                            <p-dropdown [(ngModel)]="selectedPedido.estado" inputId="estado"
+                                [options]="estadoOptions">
+                                <ng-template pTemplate="selectedItem">
+                                    <p-tag [value]="selectedPedido.estado.toUpperCase()"
+                                    [style]="{'background-color': colorEstado(selectedPedido.estado), 'cursor': 'pointer', 'user-select': 'none'}" />
+                                </ng-template>
+                                <ng-template let-option pTemplate="item">
+                                    <p-tag [value]="option.label" [style]="{'background-color': colorEstado(option.label)}" />
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+
+                        <div class="field">
+                            <label for="producto">Producto</label>
+                            <p-autoComplete 
+                                [(ngModel)]="selectedPedido.producto" 
+                                [suggestions]="listaFiltrada" 
+                                (completeMethod)="filtrarModelos($event)" />
+                        </div>
+
+                        <div class="field">
+                            <label for="fecha">Fecha</label>
+                            <p-calendar 
+                            [(ngModel)]="selectedPedido.fecha" 
+                            dateFormat="dd/mm/yy"
+                             />
+                        </div>
+
+                        <div>
+                            <label for="precio">Precio</label>
+                            <p-inputNumber 
+                                [(ngModel)]="selectedPedido.precio" 
+                                inputId="locale-german" 
+                                mode="decimal" 
+                                locale="de-DE" 
+                                [minFractionDigits]="2" /> 
+                        </div>
+
+                        <div class="field">
+                            <div class="flex align-items-center">
+                                <label for="Es Envio">
+                                    <p-checkbox 
+                                        [(ngModel)]="selectedPedido.esEnvio"
+                                        label="Es Envio" 
+                                        name="Es Envio" 
+                                        [binary]="true"  />
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="entrega" *ngIf="!selectedPedido.esEnvio">Punto de encuento en</label>
+                            <label for="entrga" *ngIf="selectedPedido.esEnvio">Envio a</label>
+                            <input type="text" pInputText [(ngModel)]="selectedPedido.lugar" />
+                        </div>
+
+                    </ng-template>
+
+                    <ng-template pTemplate="footer">
+                        <p-button label="Cancel" icon="pi pi-times" [text]="true" (onClick)="hideDialog()" />
+                        <p-button label="Save" icon="pi pi-check" [text]="true" (onClick)="saveProduct()" />
+                    </ng-template>
+                </p-dialog>
+            </div>
+
         </div>
     </div>
-    
-        <!-- termina container -->
+
+    <!-- termina container -->
 </div>
