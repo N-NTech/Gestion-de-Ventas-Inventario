@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, viewChild, ViewChild } from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -16,10 +16,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CalendarModule } from 'primeng/calendar';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
-interface AutoCompleteCompleteEvent {
-    originalEvent: Event;
-    query: string;
-}
+import { PedidosDialogComponent } from '../../components/pedidos-dialog/pedidos-dialog.component';
+
 
 @Component({
     selector: 'table-filter-basic-demo',
@@ -28,42 +26,46 @@ interface AutoCompleteCompleteEvent {
     standalone: true,
     imports: [FormsModule, TableModule, TagModule, IconFieldModule, InputTextModule, 
         InputIconModule, MultiSelectModule, DropdownModule, HttpClientModule, CommonModule, 
-        SpeedDialModule, DialogModule, AutoCompleteModule, CalendarModule,InputNumberModule,CheckboxModule]
+        SpeedDialModule, DialogModule, AutoCompleteModule, CalendarModule,InputNumberModule,CheckboxModule,PedidosDialogComponent]
 })
 
 export class PedidosPageComponent implements OnInit {
-    saveProduct() {
-        throw new Error('Method not implemented.');
-    }
-    hideDialog() {
-        throw new Error('Method not implemented.');
-    }
-
-
-
-
-    Estado: Estado | null = null;
+    
+    
     estadoSeleccionado: Estado | null = null;
 
     estadoOptions!: { label: any, value: any }[]
-
-    showDialog = false;
-
+    
+    @ViewChild(PedidosDialogComponent)
+    dialog!:PedidosDialogComponent;
+    
+    
     selectedPedido = {
-        id: 1,
-        nombre: 'Nicolás Arcamone',
+        id: null,
+        nombre: '',
         estado: Estado.NuevoPedido,
-        producto: 'Nike- Jordan hight - Rosa y Negro - 45',
-        fecha: new Date(2024, 4 - 1, 11),
-        precio: 23000,
-        lugar: 'Caballito',
+        producto: '',
+        fecha: new Date(),
+        precio: 0,
+        lugar: '',
         esEnvio: false
-    };
+    }
+
+    // this.selectedPedido = {
+    //     id: 1,
+    //     nombre: 'Nicolás Arcamone',
+    //     estado: Estado.NuevoPedido,
+    //     producto: 'Nike- Jordan hight - Rosa y Negro - 45',
+    //     fecha: new Date(2024, 4 - 1, 11),
+    //     precio: 23000,
+    //     lugar: 'Caballito',
+    //     esEnvio: false
+    // };
 
     numeroRandom = 22
 
     modelosDisponibles = ["Nike", "Adidas", "Puma", "New Balance", "Converse", "Reebok", "Vans", "Fila", "Skechers", "Under Armour"]
-    listaFiltrada: any[] = [];
+    
 
 
     pedidos = [
@@ -195,13 +197,13 @@ export class PedidosPageComponent implements OnInit {
                 return '#005176';
             case Estado.Cancelado:
                 return '#460000';
-
+    
             case Estado.RetiroPendiente:
                 return '#644200';
-
+    
             case Estado.SinStock:
                 return '#2d2d30';
-
+    
             default:
                 return undefined;
         }
@@ -221,7 +223,8 @@ export class PedidosPageComponent implements OnInit {
 
     editarPedido(pedido: any) {
         this.selectedPedido = pedido;
-        this.showDialog = true;
+        this.dialog.showDialog = true
+        this.dialog.isNuevoPedido = false
         console.log(pedido)
     }
 
@@ -229,17 +232,30 @@ export class PedidosPageComponent implements OnInit {
         console.log("Eliminar pedido", pedido)
     }
 
-    filtrarModelos(event: AutoCompleteCompleteEvent) {
-        const query = event.query.toLowerCase();
-        this.listaFiltrada = this.modelosDisponibles.filter(modelo => modelo.toLowerCase().includes(query));
-      }
+
+    nuevoPedido(){
+
+        this.selectedPedido = {
+            id: null,
+            nombre: '',
+            estado: Estado.NuevoPedido,
+            producto: '',
+            fecha: new Date(),
+            precio: 0,
+            lugar: '',
+            esEnvio: false
+        }
+        this.dialog.showDialog = true
+        this.dialog.isNuevoPedido = true        
+    }
+
 
       filter(event: any) {
         console.log(event);
         return this.pedidos;
     }
 
-
+    
 
 }
 
