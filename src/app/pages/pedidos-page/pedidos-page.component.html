@@ -54,10 +54,10 @@
                                     <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                                         <select class="form-select" aria-label="Filter Status"
                                             [(ngModel)]="estadoSeleccionado" (ngModelChange)="filter($event)">
-                                            <option *ngFor="let option of estadoOptions" [value]="option.value">
-                                                <p-tag [value]="option.label"
-                                                    [style]="{'background-color': colorEstado(option.value), 'cursor': 'pointer', 'user-select': 'none'}"
-                                                    [severity]="getSeverity(option.value)"
+                                            <option *ngFor="let option of estadoOptions" [value]="option">
+                                                <p-tag [value]="option"
+                                                    [style]="{'background-color': colorEstado(option), 'cursor': 'pointer', 'user-select': 'none'}"
+                                                    [severity]="getSeverity(option)"
                                                     ></p-tag>
                                             </option>
                                         </select>
@@ -75,13 +75,17 @@
                     <ng-template pTemplate="body" let-pedido>
                         <tr>
                             <td>
-                                {{ pedido.nombre }}
+                                {{ pedido.cliente?.nombre }}
                             </td>
                             <td>
-                                {{ pedido.producto }}
+                                {{
+                                    pedido.productos?.length <= 0 ? "Sin Producto" : 
+                                    pedido.productos?.length == 1 ? pedido.productos[0].modelo?.marca?.nombre + " " + pedido.productos[0].modelo?.nombre + " " + pedido.productos[0].color + " " + pedido.productos[0].talle : 
+                                    "x" + pedido.productos?.length + " productos" 
+                                }}
                             </td>
                             <td>
-                                {{ pedido.fecha | date: 'dd/MM/yyyy' }}
+                                {{ pedido.fechaCreacion | date: 'dd/MM/yyyy' }}
                             </td>
                             <td>
                                 <p-tag 
@@ -93,7 +97,7 @@
                                     
                             </td>
                             <td>
-                                {{ pedido.lugar }}
+                                {{ pedido.direccion }}
                             </td>
                             <td style="display: flex;">
                                 <p-button

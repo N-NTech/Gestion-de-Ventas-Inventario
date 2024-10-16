@@ -12,11 +12,11 @@
             <label for="estado">Estado</label>
             <p-dropdown [(ngModel)]="selectedPedido.estado" inputId="estado" [options]="estadoOptions">
                 <ng-template pTemplate="selectedItem">
-                    <p-tag [value]="selectedPedido.estado.toUpperCase()" 
+                    <p-tag [value]="selectedPedido.estado" 
                           [style]="{'background-color': colorEstado(selectedPedido.estado), 'cursor': 'pointer', 'user-select': 'none'}" />
                 </ng-template>
                 <ng-template let-option pTemplate="item">
-                    <p-tag [value]="option.label" [style]="{'background-color': colorEstado(option.label)}" />
+                    <p-tag [value]="option" [style]="{'background-color': colorEstado(option)}" />
                 </ng-template>
             </p-dropdown>
         </div>

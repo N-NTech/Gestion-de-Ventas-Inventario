@@ -36,7 +36,7 @@ interface AutoCompleteCompleteEvent {
 export class PedidosDialogComponent {
   
   @Input()  selectedPedido:any = null
-  @Input()  estadoOptions!: { label: any, value: any }[]
+  @Input()  estadoOptions!: string[]
   listaFiltrada:any = []
   showDialog:boolean = false
   @Input()  modelosDisponibles:any[] = [] 
@@ -51,25 +51,22 @@ export class PedidosDialogComponent {
     
   }
 
-  colorEstado(estado: Estado): any | undefined {
+  colorEstado(estado: string): any | undefined {
     switch (estado) {
-        case Estado.NuevoPedido:
+        case 'NUEVO PEDIDO':
             return '#014811';
-        case Estado.PagoPendiente:
+        case 'PAGO PENDIENTE':
             return '#644200';
-        case Estado.EnvioPendiente:
+        case 'ENVIO PENDIENTE':
             return '#77791d';
-        case Estado.Entregado:
+        case 'ENTREGADO':
             return '#005176';
-        case Estado.Cancelado:
+        case 'CANCELADO':
             return '#460000';
-
-        case Estado.RetiroPendiente:
+        case 'RETIRO PENDIENTE':
             return '#644200';
-
-        case Estado.SinStock:
+        case 'SIN STOCK':
             return '#2d2d30';
-
         default:
             return undefined;
     }

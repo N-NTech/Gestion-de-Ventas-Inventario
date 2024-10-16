@@ -1,9 +1,9 @@
 export enum Estado {
-    NuevoPedido = 'Nuevo Pedido',
-    PagoPendiente = 'Pago Pendiente',
-    EnvioPendiente = 'Envio Pendiente',
-    Entregado = 'Entregado',
-    Cancelado = 'Cancelado',
-    RetiroPendiente = 'Retiro Pendiente',
-    SinStock = 'Sin Stock'
+    NuevoPedido = 'NUEVO PEDIDO',
+    PagoPendiente = 'PAGO PENDIENTE',
+    EnvioPendiente = 'ENVIO PENIENTE',
+    Entregado = 'ENTREGADO',
+    Cancelado = 'CANCELADO',
+    RetiroPendiente = 'RETIRO PENDIENTE',
+    SinStock = 'SIN STOCK'
 }
