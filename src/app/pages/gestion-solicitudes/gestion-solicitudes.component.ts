@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, input, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -15,6 +15,8 @@ import { CommonModule } from '@angular/common';
 import { PedidosService } from '../../services/pedidos.service';
 import {TagModule} from 'primeng/tag';
 import {MatChipsModule} from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+
 
 export interface PedidoMatTable {
   id: string;
@@ -42,14 +44,17 @@ export interface PedidoMatTable {
 @Component({
   selector: 'app-gestion-solicitudes',
   standalone: true,
-  imports: [MatCardModule, MatPaginatorModule, MatSortModule, MatTableModule, MatInputModule, MatFormFieldModule, MatPaginator, MatSort, MatIcon, MatButtonModule, MatTooltipModule, MatDialogModule, MatSelectModule, FormsModule, MatSelectModule, CommonModule, TagModule, MatChipsModule],
+  imports: [MatCardModule,MatIconModule , MatPaginatorModule, MatSortModule, MatTableModule, MatInputModule, MatFormFieldModule, MatPaginator, MatSort, MatIcon, MatButtonModule, MatTooltipModule, MatDialogModule, MatSelectModule, FormsModule, MatSelectModule, CommonModule, TagModule, MatChipsModule],
   templateUrl: './gestion-solicitudes.component.html',
   styleUrl: './gestion-solicitudes.component.css'
 })
 export class GestionSolicitudesComponent {
 
+  constructor(
+    private readonly pedidosService: PedidosService,
+  ) { }
 
-  displayedColumns: string[] = ['Nombre', 'Producto', 'Fecha', 'Estado', 'Lugar', 'Editar'];
+  displayedColumns: string[] = ['id','clienteNombre', 'productNombreList', 'fechaCreacion', 'estado', 'direccion', 'Editar'];
 
   pedidos: any[] = [];
 
@@ -70,32 +75,27 @@ export class GestionSolicitudesComponent {
 
   inputFilter: string = '';
 
-
   @ViewChild(MatPaginator)
   paginator!: MatPaginator | null;
 
   @ViewChild(MatSort)
   sort!: MatSort | null;
 
-  dialog = inject(MatDialog);
-
-
-  constructor(
-    private readonly pedidosService: PedidosService,
-  ) {
-
-    this.pedidosService.getAllPedidos().subscribe({ //Trae las solicitudes con estado pendiente
+  ngOnInit() {
+    this.pedidosService.getAllPedidos().subscribe({
       next: (pedidos: any[]) => {
         this.pedidos = pedidos;
-        this.dataSource = new MatTableDataSource(this.pedidos.map(PedidoToPedidoMatTable)); //Transforma los pedidos en PedidoMatTable para poder filtrar y ordenar
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource = new MatTableDataSource(this.pedidos.map(pedidoToPedidoMatTable));
+  
+        // if (this.dataSource) {
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        // }
       },
       error: (error) => {
         console.error(error);
       }
     });
-
   }
 
   //Filtra a nivel local
@@ -119,7 +119,7 @@ export class GestionSolicitudesComponent {
         this.pedidosService.getAllPedidos().subscribe({
           next: (pedidos: any[]) => {
             this.pedidos = pedidos;
-            this.dataSource = new MatTableDataSource(this.pedidos.map(PedidoToPedidoMatTable));
+            this.dataSource = new MatTableDataSource(this.pedidos.map(pedidoToPedidoMatTable));
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
           },
@@ -130,24 +130,8 @@ export class GestionSolicitudesComponent {
       } else {
         //Filtra a nivel local
         const pedidosFiltrados = this.pedidos.filter(pedido => pedido.estado == selectedEstado)
-        this.dataSource = new MatTableDataSource(pedidosFiltrados.map(PedidoToPedidoMatTable));
+        this.dataSource = new MatTableDataSource(pedidosFiltrados.map(pedidoToPedidoMatTable));
       }
-  }
-
-
-  statusStyle(status: string) {
-    switch (status) {
-      case 'NUEVO PEDIDO':
-        return 'background-color: color: #EB7D00; font-weight: bold;';
-      case 'Rechazada':
-        return 'color: red; font-weight: bold;';
-      case 'Acreditada':
-        return 'color: green; font-weight: bold;';
-      case 'En Proceso':
-        return 'color: blue; font-weight: bold;';
-      default:
-        return 'color: white; font-weight: bold;';
-    }
   }
 
   colorEstado(estado: string): any | undefined {
@@ -174,7 +158,7 @@ export class GestionSolicitudesComponent {
 
 }
 
-function PedidoToPedidoMatTable(pedido: any): PedidoMatTable {
+function pedidoToPedidoMatTable(pedido: any): PedidoMatTable {
 
   const listaDeNombres: string[] = pedido.productos.map((pedido:any) => `\n ⚪${pedido.modelo?.marca?.nombre} ${pedido.modelo?.nombre} ${pedido.color} ${pedido.talle}\n`).join("");
 

@@ -13,23 +13,25 @@
             <mat-form-field class="col-6">
                 <mat-label>Estado</mat-label>
                 <mat-select [(ngModel)]="selectedEstado" (selectionChange)="applyFilterEstado(selectedEstado)">
-                <!-- <mat-select [(ngModel)]="selectedEstado"> -->
                     <mat-option *ngFor="let estado of estados" [value]="estado">
                         <mat-chip [style]="{'background-color': colorEstado(estado)}">{{estado}}</mat-chip>
                     </mat-option>
                 </mat-select>
             </mat-form-field>
 
-            <div class="mat-elevation-z8">
-                <table mat-table [dataSource]="dataSource" matSort>
+                <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                        <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+                    </ng-container>
 
-                    <ng-container matColumnDef="Nombre">
+                    <ng-container matColumnDef="clienteNombre">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
                         <td mat-cell *matCellDef="let row"> {{row.clienteNombre}}</td>
                     </ng-container>
 
-                    <ng-container matColumnDef="Producto">
+                    <ng-container matColumnDef="productNombreList">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Producto </th>
                         <td mat-cell *matCellDef="let row"> 
                             <span *ngIf="row.productList?.length <= 0">
@@ -47,23 +49,19 @@
                         </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="Fecha">
+                    <ng-container matColumnDef="fechaCreacion">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
                         <td mat-cell *matCellDef="let row"> {{row.fechaCreacion | date:'dd/MM/yyyy'}}</td>
                     </ng-container>
 
-                    <ng-container matColumnDef="Estado">
+                    <ng-container matColumnDef="estado">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
                         <td mat-cell *matCellDef="let row"> 
-                            <!-- <p-tag 
-                                [value]="row.estado"
-                                [style]="{'background-color': colorEstado(row.estado), 'cursor': 'pointer', 'user-select': 'none'}"
-                            /> -->
                             <mat-chip [style]="{'background-color': colorEstado(row.estado)}">{{row.estado}}</mat-chip>
                         </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="Lugar">
+                    <ng-container matColumnDef="direccion">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Lugar </th>
                         <td mat-cell *matCellDef="let row"> {{row.direccion}} </td>
                     </ng-container>
@@ -79,18 +77,15 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-                    <!-- Row shown when there is no matching data. -->
                     <tr class="mat-row" *matNoDataRow>
                         <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
                     </tr>
+
                 </table>
 
                 <mat-paginator [pageSizeOptions]="[10, 25, 100]"
-                    aria-label="Seleccionar pagina de solicitudes"></mat-paginator>
-
-            </div>
-
-
+                    aria-label="Seleccionar pagina de solicitudes">
+                </mat-paginator>
 
         </mat-card-content>
     </mat-card>
