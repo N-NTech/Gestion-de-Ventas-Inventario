@@ -55,7 +55,16 @@ export class GestionSolicitudesComponent {
 
   dataSource!: MatTableDataSource<PedidoMatTable>;
 
-  estados: string[] = [];
+  estados: string[] = [
+    'NUEVO PEDIDO',
+    'PAGO PENDIENTE',
+    'ENVIO PENDIENTE',
+    'ENTREGADO',
+    'CANCELADO',
+    'RETIRO PENDIENTE',
+    'SIN STOCK',
+    'Todos'
+];
 
   selectedEstado: string | undefined;
 
@@ -100,41 +109,31 @@ export class GestionSolicitudesComponent {
     }
   }
 
-  //Filtra a nivel de la base de datos
-  // applyFilterEstado(selectedEstado: any) {
+  applyFilterEstado(selectedEstado: any) {
 
-  //   this.inputFilter = '';
+    console.log("Change", selectedEstado);
+      
+      this.inputFilter = '';
+  
+      if (selectedEstado == 'Todos') {
+        this.pedidosService.getAllPedidos().subscribe({
+          next: (pedidos: any[]) => {
+            this.pedidos = pedidos;
+            this.dataSource = new MatTableDataSource(this.pedidos.map(PedidoToPedidoMatTable));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          },
+          error: (error) => {
+            console.error(error);
+          }
+        });
+      } else {
+        //Filtra a nivel local
+        const pedidosFiltrados = this.pedidos.filter(pedido => pedido.estado == selectedEstado)
+        this.dataSource = new MatTableDataSource(pedidosFiltrados.map(PedidoToPedidoMatTable));
+      }
+  }
 
-  //   //Si se selecciona 'Todos' se traen todas las solicitudes
-  //   if (selectedEstado.descripcion == 'Todos') {
-  //     this.pedidosService.getAllPedidos().subscribe({
-  //       next: (solicitudes: Solicitud[]) => {
-  //         this.solicitudes = solicitudes;
-  //         this.dataSource = new MatTableDataSource(this.solicitudes.map(solicitudToSolicitudMatTable));
-
-  //         this.dataSource.paginator = this.paginator;
-  //         this.dataSource.sort = this.sort;
-  //       },
-  //       error: (error) => {
-  //         console.error(error);
-  //       }
-  //     });
-  //   } else {
-  //     //Si se selecciona un estado en particular se traen las solicitudes con ese estado
-  //     this.pedidosService.getAllPedidos().subscribe({
-  //       next: (solicitudes: Solicitud[]) => {
-  //         this.solicitudes = solicitudes;
-  //         this.dataSource = new MatTableDataSource(this.solicitudes.map(solicitudToSolicitudMatTable));
-
-  //         this.dataSource.paginator = this.paginator;
-  //         this.dataSource.sort = this.sort;
-  //       },
-  //       error: (error) => {
-  //         console.error(error);
-  //       }
-  //     });
-  //   }
-  // }
 
   statusStyle(status: string) {
     switch (status) {
