@@ -34,7 +34,6 @@ export interface PedidoMatTable {
   productoMarca?: string;
   productoVariante?: string;
   productoTalle?: string;
-  productoColor?: string;
   productoCategoria?: string;
   precioVenta: string;
   precioCosto: string;
@@ -160,7 +159,7 @@ export class GestionSolicitudesComponent {
 
 function pedidoToPedidoMatTable(pedido: any): PedidoMatTable {
 
-  const listaDeNombres: string[] = pedido.productos.map((pedido:any) => `\n ⚪${pedido.modelo?.marca?.nombre} ${pedido.modelo?.nombre} ${pedido.color} ${pedido.talle}\n`).join("");
+  const listaDeNombres: string[] = pedido.productos.map((pedido:any) => `\n ⚪${pedido.modelo?.marca?.nombre} ${pedido.modelo?.nombre} ${pedido.modelo?.variante} ${pedido.talle}\n`).join("");
 
   const pedidoMatTable: PedidoMatTable =  {
     id: pedido.id.toString(),
@@ -184,7 +183,6 @@ function pedidoToPedidoMatTable(pedido: any): PedidoMatTable {
     pedidoMatTable.productoMarca = pedido.productos[0].modelo?.marca?.nombre
     pedidoMatTable.productoVariante = pedido.productos[0].modelo?.marca?.variante?.nombre
     pedidoMatTable.productoTalle = pedido.productos[0].talle
-    pedidoMatTable.productoColor = pedido.productos[0].color
     pedidoMatTable.productoCategoria = pedido.productos[0].categoria?.nombre
   }
 

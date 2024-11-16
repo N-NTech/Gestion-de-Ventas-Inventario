@@ -1,42 +1,73 @@
 {
-  // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
   "version": "2.0.0",
   "tasks": [
     {
-      "type": "npm",
-      "script": "start",
-      "isBackground": true,
-      "problemMatcher": {
-        "owner": "typescript",
-        "pattern": "$tsc",
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": {
-            "regexp": "(.*?)"
-          },
-          "endsPattern": {
-            "regexp": "bundle generation complete"
-          }
-        }
-      }
+      "label": "Start NestJS",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "start:dev"],
+      "options": {
+        "cwd": "E:/Mis Documentos/Facultad/Informatica/Proyectos/Proyectos personales/Gestion-de-Ventas-Inventario-backend"
+      },
+      "problemMatcher": []
     },
     {
-      "type": "npm",
-      "script": "test",
-      "isBackground": true,
-      "problemMatcher": {
-        "owner": "typescript",
-        "pattern": "$tsc",
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": {
-            "regexp": "(.*?)"
-          },
-          "endsPattern": {
-            "regexp": "bundle generation complete"
-          }
-        }
-      }
+      "label": "Start Angular",
+      "type": "shell",
+      "command": "ng",
+      "args": ["serve"],
+      "options": {
+        "cwd": "E:/Mis Documentos/Facultad/Informatica/Proyectos/Proyectos personales/Gestion-de-Ventas-Inventario"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start Both",
+      "dependsOn": ["Start NestJS", "Start Angular"],
+      "dependsOrder": "parallel"
     }
   ]
 }
+
+// {
+//   // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
+//   "version": "2.0.0",
+//   "tasks": [
+//     {
+//       "type": "npm",
+//       "script": "start",
+//       "isBackground": true,
+//       "problemMatcher": {
+//         "owner": "typescript",
+//         "pattern": "$tsc",
+//         "background": {
+//           "activeOnStart": true,
+//           "beginsPattern": {
+//             "regexp": "(.*?)"
+//           },
+//           "endsPattern": {
+//             "regexp": "bundle generation complete"
+//           }
+//         }
+//       }
+//     },
+//     {
+//       "type": "npm",
+//       "script": "test",
+//       "isBackground": true,
+//       "problemMatcher": {
+//         "owner": "typescript",
+//         "pattern": "$tsc",
+//         "background": {
+//           "activeOnStart": true,
+//           "beginsPattern": {
+//             "regexp": "(.*?)"
+//           },
+//           "endsPattern": {
+//             "regexp": "bundle generation complete"
+//           }
+//         }
+//       }
+//     }
+//   ]
+// }
