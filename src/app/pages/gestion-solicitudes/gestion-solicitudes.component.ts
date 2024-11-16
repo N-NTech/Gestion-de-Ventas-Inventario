@@ -159,7 +159,7 @@ export class GestionSolicitudesComponent {
 
 function pedidoToPedidoMatTable(pedido: any): PedidoMatTable {
 
-  const listaDeNombres: string[] = pedido.productos.map((pedido:any) => `\n ⚪${pedido.modelo?.marca?.nombre} ${pedido.modelo?.nombre} ${pedido.modelo?.variante} ${pedido.talle}\n`).join("");
+  const listaDeNombres: string[] = pedido.productos.map((pedido:any) => `⚪${pedido.modelo?.nombre} ${pedido.modelo?.variante} ${pedido.talle}`).join("\n");
 
   const pedidoMatTable: PedidoMatTable =  {
     id: pedido.id.toString(),

@@ -42,7 +42,7 @@
                                 {{ row.productoMarca + " " + row.productoModelo + " " + row.productoVariante + " " + row.productoTalle }}
                             </span>
 
-                            <span *ngIf="row.productList?.length > 1" matTooltip="{{ row.productNombreList }}">
+                            <span *ngIf="row.productList?.length > 1" [matTooltip]="row.productNombreList">
                                 {{ "x" + row.productList?.length + " productos" }}
                             </span>    
 
