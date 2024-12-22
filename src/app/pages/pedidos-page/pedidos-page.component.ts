@@ -127,6 +127,7 @@ export class PedidosPageComponent implements OnInit {
 
         this.pedidosService.getAllPedidos().subscribe({
             next: (pedidos: any[]) => {
+                console.log(pedidos);
                 this.pedidos = pedidos;
                 this.dataSource = new MatTableDataSource(this.pedidos.map(pedidoToPedidoMatTable));
 
@@ -297,7 +298,7 @@ function pedidoToPedidoMatTable(pedido: any): PedidoMatTable {
     if(pedido.productos.length > 0){
       pedidoMatTable.productoModelo = pedido.productos[0].modelo?.nombre
       pedidoMatTable.productoMarca = pedido.productos[0].modelo?.marca?.nombre
-      pedidoMatTable.productoVariante = pedido.productos[0].modelo?.marca?.variante?.nombre
+      pedidoMatTable.productoVariante = pedido.productos[0].modelo?.variante
       pedidoMatTable.productoTalle = pedido.productos[0].talle
       pedidoMatTable.productoCategoria = pedido.productos[0].categoria?.nombre
     }
