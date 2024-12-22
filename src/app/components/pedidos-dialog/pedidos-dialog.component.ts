@@ -16,7 +16,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TableModule } from 'primeng/table';
-import { Estado } from '../../pages/pedidos-page/estado.enum';
+import { Estado } from '../../shared/enums/estado.enum';
 
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;

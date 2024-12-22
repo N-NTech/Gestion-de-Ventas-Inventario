@@ -1,18 +1,17 @@
-.container-fluid {
+.container-fluid{
     background-color: #0B0D26;
     width: 100%;
     border-radius: 8px;
 }
-
 .row-principal {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin-top: 3em;
+    margin-top: 3em ;
 }
 
 .col-titulo {
-    padding: 1em;
+    padding: 1em ;
     color: #ffffff;
     display: flex;
     justify-content: start;
@@ -30,30 +29,29 @@
 }
 
 
-.boton-pedidos i {
-    font-size: 25px;
-    ;
+.boton-pedidos i{
+    font-size: 25px;;
 }
 
-.bi-box-seam {
-    color: #544C9B
+.bi-box-seam{
+    color:#544C9B
 }
 
-.bi-archive {
+.bi-archive{
     color: #544C9B;
 }
 
-.bi-cart-x {
+.bi-cart-x{
     color: #544C9B;
 }
 
-.bi-plus-square-fill {
+.bi-plus-square-fill{
     color: #9990E4;
     width: 16px;
     height: 16px;
 }
 
-.boton-pedidos {
+.boton-pedidos{
     background-color: #181E38;
     color: #7D7878;
     border: none;
@@ -64,7 +62,7 @@
     transition: transform 0.3s ease;
 }
 
-.boton-faltantes {
+.boton-faltantes{
     background-color: #181E38;
     color: #7D7878;
     border: none;
@@ -75,53 +73,51 @@
     margin-left: 20px;
     transition: transform 0.3s ease;
 }
-
 .boton-faltantes:hover {
     background-color: #282c54;
     color: #ffffff;
     transform: scale(1.02);
 }
-
 .boton-pedidos:hover {
     background-color: #282c54;
     color: #ffffff;
     transform: scale(1.02);
 }
 
-button p {
+button p{
     font-weight: bolder;
 }
 
-.table {
+.table{
     color: #7D7878;
     margin-top: 20px;
-
+    
 }
 
 
-.table thead th {
+.table thead th{
     color: white;
-    border: red;
+    border: red ;
 }
 
-.form-select {
+.form-select{
     margin-left: 12%;
     border-radius: 6px;
 }
 
-.form-select:focus {
+.form-select:focus{
     border-color: #9990E4;
     box-shadow: 0 0 0 0.15rem #9990E4;
 }
 
 
 
-.table-primary {
+.table-primary{
     --bs-table-bg: #181E38;
     --bs-table-striped-bg: #151932;
     --bs-table-striped-color: #7D7878;
     border: #000000;
-
+    
 }
 
 
@@ -135,12 +131,12 @@ button p {
     color: white;
 }
 
-.card {
+.card{
     border: none;
     text-align: center;
 }
 
-th div {
+th div{
     display: flex;
     justify-content: center;
 }
@@ -149,60 +145,5 @@ th div {
     background-color: #151932;
     color: #a5a5a5;
     text-align: center;
-}
-
-
-
-/* asdasd */
-.mat-column-id {
-    width: 40px;
-}
-
-.mat-column-dni {
-    font-style: italic;
-}
-
-table,
-mat-paginator {
-    background-color: #181E38;
-    color: #A5A5A5
-}
-
-/* mat-form-field input{
-    width: 50%;
-    background-color: green;
-    color: red;
-    
-} */
-
-/* mat-form-field mat-label{
-    color: red;
-} */
-
-/* Mat Input */
-::ng-deep .mat-mdc-form-field {
-    --mdc-filled-text-field-caret-color: #9990e4; /* color del cursor */
-    --mdc-filled-text-field-container-color: #181e38; /* color del fondo del input */
-    --mdc-filled-text-field-focus-label-text-color: #9990e4; /* color del label cuando esta enfocado */
-    --mdc-filled-text-field-hover-active-indicator-color: #9990e4; /* color del borde del input cuando hover*/
-    --mdc-filled-text-field-focus-active-indicator-color: #9990e4; /* color del borde del input cuando esta enfocado */
-}
-
-/* Mat Select input */
-::ng-deep .mat-primary.mdc-menu-surface {
-    background-color: #181e38;
-    color: #a5a5a5;
-    color: #cc0909;
-}
-
-/* Mat Select input arrow */
-::ng-deep .mat-mdc-form-field.mat-focused.mat-primary .mat-mdc-select-arrow {
-    color: #9990e4;
-}
-
-/* Mat Select option checked icon*/
-::ng-deep .mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after {
-    color: #9990e4 !important;
-}
-
+} 
 
