@@ -90,7 +90,7 @@ export class ModeloCardComponent {
     console.log(this.modelo, this.cantidad, this.talle);
     
     this._snackBar.open(`Agregado al pedido: ${this.modelo.marca.nombre} ${this.modelo.nombre} ${this.modelo.variante} ${this.talle} (x${this.cantidad})`, 'X', {
-      duration: 500000,
+      duration: 5000,
       panelClass: ['custom-snackbar'],
     });
 
