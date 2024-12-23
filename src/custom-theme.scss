@@ -1,0 +1,100 @@
+// src/custom-theme.scss
+
+// Importar las funciones necesarias de Material
+@use '@angular/material' as mat;
+
+// Incluir los estilos base de Material
+@include mat.core();
+
+// Definir una paleta personalizada con #9990e4 como color principal
+$custom-primary: mat.define-palette(
+  (
+    50: #f2f1fb,
+    100: #d8d5f4,
+    200: #beb8ed,
+    300: #a49ce6,
+    400: #8f88e0,
+    500: #9990e4, // Color principal
+    600: #7e72d9,
+    700: #6455cf,
+    800: #4a37c4,
+    900: #2f1ab9,
+    A100: #c2bfff,
+    A200: #a099ff,
+    A400: #8064ff,
+    A700: #6b4aff,
+    contrast: (
+      50: black,
+      100: black,
+      200: black,
+      300: black,
+      400: white,
+      500: white, // Contraste para el color principal
+      600: white,
+      700: white,
+      800: white,
+      900: white,
+      A100: black,
+      A200: white,
+      A400: white,
+      A700: white,
+    ),
+  )
+);
+
+// Definir paletas de acento y advertencia
+$accent-palette: mat.define-palette(mat.$amber-palette);
+$warn-palette: mat.define-palette(mat.$red-palette);
+
+// Configurar el fondo para las tarjetas en el tema oscuro
+$dark-theme: mat.define-dark-theme((
+  color: (
+    primary: $custom-primary,
+    accent: $accent-palette,
+    warn: $warn-palette,
+    background: (
+      card: #d80a26, // Fondo personalizado para tarjetas
+      default: #187900, // Fondo general
+    ) ,
+  )
+));
+
+// Aplicar el tema oscuro globalmente
+@include mat.all-component-themes($dark-theme);
+
+// Estilos globales para el modo oscuro
+body {
+  background-color: #181e38;
+  color: white;
+}
+
+/* Mat Input */
+.mat-mdc-form-field{
+  --mdc-filled-text-field-caret-color: #9990e4; /* color del cursor */
+  --mdc-filled-text-field-container-color: #181e38; /* color del fondo del input */
+  --mdc-filled-text-field-focus-label-text-color: #9990e4; /* color del label cuando esta enfocado */
+  --mdc-filled-text-field-hover-active-indicator-color: #9990e4; /* color del borde del input cuando hover*/
+  --mdc-filled-text-field-focus-active-indicator-color: #9990e4; /* color del borde del input cuando esta enfocado */
+}
+
+/* Mat Select input */
+.mat-primary.mdc-menu-surface{
+  background-color: #181e38;
+  color: #a5a5a5;
+  color: #cc0909;
+}
+
+/* Mat Select input arrow */
+.mat-mdc-form-field.mat-focused.mat-primary .mat-mdc-select-arrow{
+  color: #9990e4;
+}
+
+/* Mat Select option checked icon*/
+.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after{
+  color: #9990e4 !important;
+}
+
+.product-card {
+  background-color: #181e38 !important; // Cambia el color de fondo
+  color: #ffffff; // Cambia el color del texto si es necesario
+}
