@@ -33,6 +33,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
+import { Router } from '@angular/router';
 
 export interface PedidoMatTable {
     id: string;
@@ -117,7 +118,8 @@ export class PedidosPageComponent implements OnInit {
 
 
     constructor(
-        private readonly pedidosService: PedidosService
+        private readonly pedidosService: PedidosService,
+        private router: Router
     ) {
 
     }
@@ -247,7 +249,7 @@ export class PedidosPageComponent implements OnInit {
     }
 
 
-    nuevoPedido() {
+    nuevoPedidoOld() {
 
         this.selectedPedido = {
             id: null,
@@ -263,6 +265,9 @@ export class PedidosPageComponent implements OnInit {
         this.dialog.isNuevoPedido = true
     }
 
+    nuevoPedido() {
+        this.router.navigate(['/modelos']);
+    }
 
     filter(event: any) {
         console.log(event);

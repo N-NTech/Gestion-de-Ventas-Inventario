@@ -1,0 +1,14 @@
+<div class="container-fluid">
+    <div class="row row-principal">
+        <div class="col col-titulo">
+            <h1><i class="bi bi-box-seam"></i> Crear Pedido</h1>
+        </div>
+        <div class="flexList">
+            @for (modelo of modelList; track modelo.id) {
+                <app-modelo-card [modelo]="modelo"/>
+              }
+        </div>
+    </div>
+
+    <!-- termina container -->
+</div>

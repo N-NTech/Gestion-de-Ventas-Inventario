@@ -1,0 +1,40 @@
+.flexList {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  list-style-type: none;
+  height: max-content;
+  flex-wrap: wrap;
+}
+
+.row-principal {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 3em;
+}
+
+.col-titulo {
+  padding: 1em;
+  color: #ffffff;
+  display: flex;
+  justify-content: start;
+}
+
+.bi-box-seam {
+  color: #544c9b;
+}
+
+.container-fluid {
+  background-color: #0b0d26;
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* 'Tamaño de fuente del Label */
+::ng-deep mat-label {
+  font-size: 14px;
+}
+
