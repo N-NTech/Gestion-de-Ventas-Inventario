@@ -16,8 +16,3 @@
 .low-stock {
     color: #f44336;
 }
-
-::ng-deep mat-card-actions {
-    padding: 16px !important;
-    justify-content: space-around;
-}

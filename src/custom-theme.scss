@@ -98,3 +98,10 @@ body {
   background-color: #181e38 !important; // Cambia el color de fondo
   color: #ffffff; // Cambia el color del texto si es necesario
 }
+
+// Snackbar
+.custom-snackbar {
+  --mdc-snackbar-supporting-text-color: #ffffff !important;
+  --mdc-snackbar-container-color: #544c9b;
+  --mat-snack-bar-button-color: #9990e4 !important;
+}

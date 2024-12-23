@@ -4,7 +4,6 @@ import { RouterLink } from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatToolbarRow } from '@angular/material/toolbar';
 import {MatIcon} from '@angular/material/icon';
-import { concatMap, map, mergeMap } from 'rxjs';
 import { ModeloCardComponent } from '../../components/modelo-card/modelo-card.component';
 
 export interface Modelo {
@@ -660,7 +659,6 @@ export class ModelosPageComponent {
   // carrito : Carrito = new Carrito();
 
   ngOnInit() {
-
     // Seteando los talles a los modelos
     this.modelList.forEach(modelo => {
       modelo.talles = this.productList.filter(producto => producto.modelo.id === modelo.id).map(producto => producto.talle);
