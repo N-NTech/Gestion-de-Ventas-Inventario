@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, signal, WritableSignal } from '@angular/core';
 import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatToolbarRow } from '@angular/material/toolbar';
 import {MatIcon} from '@angular/material/icon';
 import { ModeloCardComponent } from '../../components/modelo-card/modelo-card.component';
+import { pedidoList } from '../../shared/carrito-store';
 
 export interface Modelo {
   id: number;
@@ -24,7 +25,7 @@ export interface Producto {
     variante: string;
     id: number;
   };
-  talle: number;
+  talle: number | undefined;
   stock: number;
 }
 
@@ -32,18 +33,14 @@ export interface Producto {
 @Component({
   selector: 'app-modelos-page',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule, MatToolbarRow, MatIcon, RouterLink,ModeloCardComponent],
+  imports: [CommonModule, MatToolbarModule,ModeloCardComponent],
   styleUrl: './modelos-page.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: `./modelos-page.component.html`,
 })
 export class ModelosPageComponent {  
   
-  constructor(
-  // private modeloService: ModeloService,
-  // private userService: UserService,
-  // private carritoService: CarritoService
-  ) { }
+  constructor() { }
 
   productList: Producto[] = [
     {
@@ -654,46 +651,16 @@ export class ModelosPageComponent {
       talles: []
     },
   ];
-  
-  // userLogin: User = new User();
-  // carrito : Carrito = new Carrito();
+
+  pedidoList: WritableSignal<Producto[]> = pedidoList;
 
   ngOnInit() {
     // Seteando los talles a los modelos
     this.modelList.forEach(modelo => {
-      modelo.talles = this.productList.filter(producto => producto.modelo.id === modelo.id).map(producto => producto.talle);
+        modelo.talles = this.productList.filter(producto => producto.modelo.id === modelo.id).map(producto => producto.talle).filter((talle): talle is number => talle !== undefined);
     });
 
     console.log(this.modelList);
-
-    //Primero obtiene el usuario 7, con el usuario 7 obtiene el carrito y con el carrito marca los productos
-
-    // this.userService.obtenerUsuario7().pipe(
-    //   concatMap((user:User) => this.carritoService.obtenerCarritoPorId(user.carrito!.id)),
-    //   concatMap((carrito:Carrito) => this.productoService.obtenerProductos())
-    // ).pipe()//Acá quiero hacer un map para marcar los productos que estén en el carrito
-    // .subscribe((productos) => {
-    //   this.productList = productos;
-    // });
-
-    // this.userService.obtenerUsuario7().pipe(
-    //   concatMap((user: User) => this.carritoService.obtenerCarritoPorId(user.carrito!.id)),
-    //   concatMap((carrito: Carrito) => {
-    //     this.carrito = carrito;
-    //     return this.productoService.obtenerProductos()
-    //   }),
-    //   map((productos: Producto[]) => {
-    //     // Marcar productos en el carrito
-    //     const productosMarcados = productos.map((producto: Producto) => {
-    //       const productoEnCarrito = this.carrito.detalleCarrito.find((detalleCarrito) => detalleCarrito.producto.id === producto.id);
-    //       producto.isInCart = productoEnCarrito !== undefined;
-    //       return producto;
-    //     });
-    //     return productosMarcados;
-    //   })
-    // ).subscribe((productosMarcados) => {
-    //   this.productList = productosMarcados;
-    // });
 
   }
 

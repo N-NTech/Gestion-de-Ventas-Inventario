@@ -8,6 +8,12 @@
                 <app-modelo-card [modelo]="modelo"/>
               }
         </div>
+
+        <div>
+            @for (pedido of pedidoList(); track pedido.id) {
+                <p>{{pedido.modelo.nombre + " " + pedido.modelo.nombre + " " + pedido.talle}}</p>
+              }
+        </div>
     </div>
 
     <!-- termina container -->

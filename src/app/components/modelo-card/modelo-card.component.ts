@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, WritableSignal } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,6 +7,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { Producto } from '../../pages/modelos-page/modelos-page.component';
+import { pedidoList } from '../../shared/carrito-store';
 
 export interface Modelo {
   id: number;
@@ -81,24 +83,49 @@ export interface Modelo {
 })
 export class ModeloCardComponent {
   @Input() modelo!: Modelo;
-  cantidad: any;
-  talle: any;
+  cantidad: number = 1;
+  talle: number | undefined;
+
+  pedidoList: WritableSignal<Producto[]> = pedidoList;
 
   constructor(private _snackBar: MatSnackBar) {}
 
   addToPedido() {
+
+    let producto: Producto = {
+      id: 1,
+      modelo: this.modelo,
+      talle: this.talle,
+      categoria: "URBANAS",
+      stock: 1,
+    }
+
     console.log(this.modelo, this.cantidad, this.talle);
+
+    this.agregarProducto(producto);
     
     this._snackBar.open(`Agregado al pedido: ${this.modelo.marca.nombre} ${this.modelo.nombre} ${this.modelo.variante} ${this.talle} (x${this.cantidad})`, 'X', {
       duration: 5000,
       panelClass: ['custom-snackbar'],
     });
 
-    this.cantidad = undefined;
     this.talle = undefined;
 
     //TODO: Implementar lógica para agregar al pedido, implementar ngrx Store?
     // this.pedidoService.addToPedido(this.modelo, this.cantidad, this.talle);
+
+
+  }
+
+  agregarProducto(producto: Producto) {
+    // Obtén el valor actual del signal
+    const currentPedidoList = this.pedidoList();
+  
+    // Agrega el nuevo producto al array
+    const updatedPedidoList = [...currentPedidoList, producto];
+  
+    // Actualiza el valor del signal
+    this.pedidoList.set(updatedPedidoList);
   }
 
 }
