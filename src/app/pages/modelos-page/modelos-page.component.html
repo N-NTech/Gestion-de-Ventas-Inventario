@@ -3,17 +3,44 @@
         <div class="col col-titulo">
             <h1><i class="bi bi-box-seam"></i> Crear Pedido</h1>
         </div>
-        <div class="flexList">
-            @for (modelo of modelList; track modelo.id) {
-                <app-modelo-card [modelo]="modelo"/>
-              }
-        </div>
+        <mat-sidenav-container>
+            <mat-sidenav #sidenav mode="side" [fixedInViewport]="true" 
+                [fixedTopGap]="pedidoList().length <= 5 ? 140 : 20" 
+                [fixedBottomGap]="pedidoList().length <= 5 ? 140 : 20"	
+                [opened]="opened()" [position]="'end'" class="w-20">
+                <div class="header-sidenav">
+                    <h3>Nuevo pedido</h3> 
+                </div>
+                <mat-list>
+                    @for (pedido of pedidoList(); track pedido.producto.id) {
+                        <mat-divider *ngIf="pedidoList().indexOf(pedido) !== 0"></mat-divider>
+                        <mat-list-item>
+                            <span matListItemTitle>{{pedido.producto.modelo.nombre}}</span>
+                            <span matListItemLine>{{pedido.producto.modelo.variante + " " + pedido.producto.talle + " (x" +pedido.cantidad+")"}}</span>
+                            <span matListItemLine>{{pedido.producto.modelo.precioVenta * pedido.cantidad | currency}}</span>
+                            <button disableRipple matListItemMeta mat-icon-button class="delete-button-sidenav" (click)="eliminarProducto(pedido.id)">
+                                <mat-icon class="icon-sidenav">delete</mat-icon>
+                              </button>
+                          </mat-list-item>
+                    }
+                </mat-list>
+                <div class="footer-sidenav">
+                    <mat-divider></mat-divider>
+                    <p>TOTAL: {{calcularTotal() | currency}}</p>
+                    <button mat-stroked-button color="primary" [disabled]="pedidoList().length === 0" (click)="finalizarPedido()">
+                        Finalizar pedido
+                    </button>
+                </div>
+            </mat-sidenav>
 
-        <div>
-            @for (pedido of pedidoList(); track pedido.id) {
-                <p>{{pedido.modelo.nombre + " " + pedido.modelo.nombre + " " + pedido.talle}}</p>
-              }
-        </div>
+            <mat-sidenav-content>
+                <div class="flexList">
+                    @for (modelo of modelList; track modelo.id) {
+                    <app-modelo-card [modelo]="modelo"/>
+                    }
+                </div>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
     </div>
 
     <!-- termina container -->

@@ -7,18 +7,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Producto } from '../../pages/modelos-page/modelos-page.component';
-import { pedidoList } from '../../shared/carrito-store';
-
-export interface Modelo {
-  id: number;
-  nombre: string;
-  marca: { id: number, nombre: string };
-  variante: string;
-  imagen: string;
-  precioVenta: number;
-  talles: number[];
-}
+import { DetallePedido, Producto } from '../../shared/Interfaces';
+import { agregarProductoCarrito, pedidoList } from '../../shared/carrito-store';
+import { Modelo } from '../../shared/Interfaces';
 
 @Component({
   selector: 'app-modelo-card',
@@ -50,7 +41,7 @@ export interface Modelo {
           <mat-form-field class="col-5">
             <mat-label>Talle</mat-label>
             <mat-select [(ngModel)]="talle">
-            @for (talle of modelo.talles; track modelo.id) {
+            @for (talle of listaTalles; track modelo.id) {
                 <mat-option [value]="talle">
                     {{talle}}
                 </mat-option>
@@ -83,12 +74,17 @@ export interface Modelo {
 })
 export class ModeloCardComponent {
   @Input() modelo!: Modelo;
+  listaTalles: (number | undefined)[] | undefined;
   cantidad: number = 1;
   talle: number | undefined;
 
-  pedidoList: WritableSignal<Producto[]> = pedidoList;
+  pedidoList: WritableSignal<DetallePedido[]> = pedidoList;
 
   constructor(private _snackBar: MatSnackBar) {}
+
+  ngOnInit() {
+    this.listaTalles = this.modelo.productos?.map(productos => productos.talle)
+  }
 
   addToPedido() {
 
@@ -102,7 +98,8 @@ export class ModeloCardComponent {
 
     console.log(this.modelo, this.cantidad, this.talle);
 
-    this.agregarProducto(producto);
+    console.log("Producto a agregar:",producto);
+    agregarProductoCarrito(producto, this.cantidad);
     
     this._snackBar.open(`Agregado al pedido: ${this.modelo.marca.nombre} ${this.modelo.nombre} ${this.modelo.variante} ${this.talle} (x${this.cantidad})`, 'X', {
       duration: 5000,
@@ -110,22 +107,8 @@ export class ModeloCardComponent {
     });
 
     this.talle = undefined;
+    this.cantidad = 1;
 
-    //TODO: Implementar lógica para agregar al pedido, implementar ngrx Store?
-    // this.pedidoService.addToPedido(this.modelo, this.cantidad, this.talle);
-
-
-  }
-
-  agregarProducto(producto: Producto) {
-    // Obtén el valor actual del signal
-    const currentPedidoList = this.pedidoList();
-  
-    // Agrega el nuevo producto al array
-    const updatedPedidoList = [...currentPedidoList, producto];
-  
-    // Actualiza el valor del signal
-    this.pedidoList.set(updatedPedidoList);
   }
 
 }

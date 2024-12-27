@@ -28,7 +28,7 @@
 }
 
 .container-fluid {
-  background-color: #0b0d26;
+  background-color: #0b0d26 !important;
   width: 100%;
   border-radius: 8px;
 }
@@ -38,3 +38,47 @@
   font-size: 14px;
 }
 
+::ng-deep mat-sidenav-container {
+  background-color: transparent !important;
+}
+
+::ng-deep mat-sidenav {
+  background-color: #1a1c4f !important;
+  border-top-left-radius: 15px !important;
+  border-bottom-left-radius: 15px !important;
+}
+
+.footer-sidenav {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 1em;
+  background-color: #1a1c4f;
+}
+
+.footer-sidenav p {
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.header-sidenav {
+  margin-top: 15px;
+  display: flex;           
+  justify-content: center;   
+  align-items: center;            
+}
+
+.header-sidenav h3 {
+  margin: 0;
+  font-size: 20px;               
+}
+
+.icon-sidenav {
+  font-size: 20px;
+}
+
+.delete-button-sidenav:hover {
+  color: #9990e4 !important;
+}
