@@ -54,7 +54,11 @@ export class ModelosPageComponent {
   
     pedidoList: WritableSignal<DetallePedido[]> = pedidoList;
     
-    opened = computed(() => pedidoList().length > 0);
+    PedidoSideOpened = computed(() => pedidoList().length > 0);
+
+    ngOnInit() {
+      console.log("Lista de modelos", this.modelList);
+    }
 
     calcularTotal() {
         return pedidoList().reduce((acc, detalle) => acc + detalle.producto.modelo.precioVenta * detalle.cantidad, 0);

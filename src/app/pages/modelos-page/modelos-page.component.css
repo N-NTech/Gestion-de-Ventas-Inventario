@@ -46,6 +46,7 @@
   background-color: #1a1c4f !important;
   border-top-left-radius: 15px !important;
   border-bottom-left-radius: 15px !important;
+  box-shadow: 0px 0px 5px 0px #000000 !important;
 }
 
 .footer-sidenav {
@@ -54,7 +55,6 @@
   width: 100%;
   text-align: center;
   padding: 1em;
-  background-color: #1a1c4f;
 }
 
 .footer-sidenav p {

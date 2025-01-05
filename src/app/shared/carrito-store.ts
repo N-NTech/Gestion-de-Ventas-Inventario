@@ -4,29 +4,37 @@ import { signal, WritableSignal } from '@angular/core';
 const pedidoList: WritableSignal<DetallePedido[]> = signal([]);
 
 // TODO: Agregar cantidad evitar repetidos
-function agregarProductoCarrito(producto: Producto, cantidad:number) {
+function agregarProductoCarrito(producto: Producto , cantidad:number) {
+  console.log("Agregando producto al carrito", producto, cantidad)
 
+  const pedidoConProductoRepetido = pedidoList().find(pedido => pedido.producto.id === producto.id)
+  console.log("Resultado del find: ",pedidoConProductoRepetido)
+
+  if(pedidoConProductoRepetido){
+    console.log("Producto repetido")
+    pedidoConProductoRepetido.cantidad += cantidad;
+  }else{
+    console.log("Producto no repetido")
     const id = pedidoList().map(pedido => pedido.id).reduce((acc, id) => Math.max(acc, id), 0) + 1;
-
+    console.log("ID del nuevo pedido: ", id)
+  
     const detallePedido: DetallePedido = {id, producto, cantidad};
-    // Obtén el valor actual del signal
-    const currentPedidoList = pedidoList();
+    console.log("Detalle del pedido: ", detallePedido)
   
-    // Agrega el nuevo producto al array
-    const updatedPedidoList = [...currentPedidoList, detallePedido];
+    const updatedPedidoList = [...pedidoList(), detallePedido];
+    console.log("Lista de pedidos actualizada: ", updatedPedidoList)
   
-    // Actualiza el valor del signal
     pedidoList.set(updatedPedidoList);
   }
+  }
+
 
 function eliminarProductoCarrito(pedidoId: number) {
-    // Obtén el valor actual del signal
+
     const currentPedidoList = pedidoList();
   
-    // Elimina el producto del array
     const updatedPedidoList = currentPedidoList.filter(pedido => pedido.id !== pedidoId);
   
-    // Actualiza el valor del signal
     pedidoList.set(updatedPedidoList);
   }
 

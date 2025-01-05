@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Signal, ViewEncapsulation, WritableSignal, computed, signal } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -40,7 +40,7 @@ import { Modelo } from '../../shared/Interfaces';
         <div class="d-flex justify-content-around align-items-center mt-3">
           <mat-form-field class="col-5">
             <mat-label>Talle</mat-label>
-            <mat-select [(ngModel)]="talle">
+            <mat-select [(ngModel)]="selectedTalle">
             @for (talle of listaTalles; track modelo.id) {
                 <mat-option [value]="talle">
                     {{talle}}
@@ -64,7 +64,7 @@ import { Modelo } from '../../shared/Interfaces';
       </mat-card-content>
 
       <mat-card-actions align="start">
-        <button mat-button color="primary" (click)="addToPedido()" [disabled]="!cantidad || !talle">
+        <button mat-button color="primary" (click)="addToPedido()" [disabled]="!cantidad || !selectedTalle()">
           <mat-icon>shopping_cart</mat-icon>
           Agregar al pedido
         </button>
@@ -76,37 +76,32 @@ export class ModeloCardComponent {
   @Input() modelo!: Modelo;
   listaTalles: (number | undefined)[] | undefined;
   cantidad: number = 1;
-  talle: number | undefined;
+  selectedTalle: WritableSignal<number | undefined> = signal(undefined);
+
+  selectedProducto: Signal<Producto | undefined> = computed(() => 
+    Object.assign(
+      this.modelo.productos!.find(producto => producto.talle === this.selectedTalle())!, 
+      { modelo: this.modelo }
+    ));
 
   pedidoList: WritableSignal<DetallePedido[]> = pedidoList;
 
   constructor(private _snackBar: MatSnackBar) {}
 
   ngOnInit() {
-    this.listaTalles = this.modelo.productos?.map(productos => productos.talle)
+    this.listaTalles = this.modelo.productos?.map(productos => productos.talle).sort((a, b) => (a || 0) - (b || 0));
   }
 
   addToPedido() {
 
-    let producto: Producto = {
-      id: 1,
-      modelo: this.modelo,
-      talle: this.talle,
-      categoria: "URBANAS",
-      stock: 1,
-    }
+    agregarProductoCarrito(this.selectedProducto()!, this.cantidad);
 
-    console.log(this.modelo, this.cantidad, this.talle);
-
-    console.log("Producto a agregar:",producto);
-    agregarProductoCarrito(producto, this.cantidad);
-    
-    this._snackBar.open(`Agregado al pedido: ${this.modelo.marca.nombre} ${this.modelo.nombre} ${this.modelo.variante} ${this.talle} (x${this.cantidad})`, 'X', {
+    this._snackBar.open(`Agregado al pedido: ${this.modelo.marca.nombre} ${this.modelo.nombre} ${this.modelo.variante} ${this.selectedTalle()} (x${this.cantidad})`, 'X', {
       duration: 5000,
       panelClass: ['custom-snackbar'],
     });
 
-    this.talle = undefined;
+    this.selectedTalle.set(undefined);
     this.cantidad = 1;
 
   }

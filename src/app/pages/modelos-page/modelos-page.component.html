@@ -7,12 +7,12 @@
             <mat-sidenav #sidenav mode="side" [fixedInViewport]="true" 
                 [fixedTopGap]="pedidoList().length <= 5 ? 140 : 20" 
                 [fixedBottomGap]="pedidoList().length <= 5 ? 140 : 20"	
-                [opened]="opened()" [position]="'end'" class="w-20">
+                [opened]="PedidoSideOpened()" [position]="'end'" class="w-20">
                 <div class="header-sidenav">
                     <h3>Nuevo pedido</h3> 
                 </div>
                 <mat-list>
-                    @for (pedido of pedidoList(); track pedido.producto.id) {
+                    @for (pedido of pedidoList(); track pedido.producto.modelo.id) {
                         <mat-divider *ngIf="pedidoList().indexOf(pedido) !== 0"></mat-divider>
                         <mat-list-item>
                             <span matListItemTitle>{{pedido.producto.modelo.nombre}}</span>
