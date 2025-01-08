@@ -27,15 +27,15 @@
                 <div class="footer-sidenav">
                     <mat-divider></mat-divider>
                     <p>TOTAL: {{calcularTotal() | currency}}</p>
-                    <button mat-stroked-button color="primary" [disabled]="pedidoList().length === 0" (click)="finalizarPedido()">
-                        Finalizar pedido
+                    <button mat-stroked-button color="primary" [disabled]="pedidoList().length === 0" (click)="continuarPedido()">
+                        Continuar pedido
                     </button>
                 </div>
             </mat-sidenav>
 
             <mat-sidenav-content>
                 <div class="flexList">
-                    @for (modelo of modelList; track modelo.id) {
+                    @for (modelo of modelList(); track modelo.id) {
                     <app-modelo-card [modelo]="modelo"/>
                     }
                 </div>

@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DetallePedido, Producto } from '../../shared/Interfaces';
-import { agregarProductoCarrito, pedidoList } from '../../shared/carrito-store';
+import { agregarProductoPedido, getPedidosList } from '../../shared/pedido-store';
 import { Modelo } from '../../shared/Interfaces';
 
 @Component({
@@ -84,7 +84,7 @@ export class ModeloCardComponent {
       { modelo: this.modelo }
     ));
 
-  pedidoList: WritableSignal<DetallePedido[]> = pedidoList;
+  pedidoList: Signal<DetallePedido[]>= computed(() => getPedidosList());
 
   constructor(private _snackBar: MatSnackBar) {}
 
@@ -94,7 +94,7 @@ export class ModeloCardComponent {
 
   addToPedido() {
 
-    agregarProductoCarrito(this.selectedProducto()!, this.cantidad);
+    agregarProductoPedido(this.selectedProducto()!, this.cantidad);
 
     this._snackBar.open(`Agregado al pedido: ${this.modelo.marca.nombre} ${this.modelo.nombre} ${this.modelo.variante} ${this.selectedTalle()} (x${this.cantidad})`, 'X', {
       duration: 5000,

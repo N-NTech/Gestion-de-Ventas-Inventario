@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, signal, Signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, Signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
 
 import { ModeloCardComponent } from '../../components/modelo-card/modelo-card.component';
-import { pedidoList } from '../../shared/carrito-store';
+import { getPedidosList } from '../../shared/pedido-store';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
@@ -18,7 +18,9 @@ import { modelosMock } from '../../shared/modelos-mock';
 import { MatListModule } from '@angular/material/list';
 import { MatDivider, MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { eliminarProductoCarrito } from '../../shared/carrito-store';
+import { eliminarProductoPedido, calcularTotalPedido} from '../../shared/pedido-store';
+import { ModelosService } from '../../services/modelos.service';
+
 
 
 
@@ -42,6 +44,7 @@ import { eliminarProductoCarrito } from '../../shared/carrito-store';
     MatDividerModule,
     MatIconModule
 ],
+providers: [ModelosService],
   styleUrl: './modelos-page.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: `./modelos-page.component.html`,
@@ -49,28 +52,30 @@ import { eliminarProductoCarrito } from '../../shared/carrito-store';
 export class ModelosPageComponent {
   
     constructor() { }
+
+    modelosServiceinject = inject(ModelosService);
     
-    modelList: Modelo[] = modelosMock;
-  
-    pedidoList: WritableSignal<DetallePedido[]> = pedidoList;
+    modelList = inject(ModelosService).modelos;
+        
+    pedidoList: Signal<DetallePedido[]>= computed(() => getPedidosList());
     
-    PedidoSideOpened = computed(() => pedidoList().length > 0);
+    PedidoSideOpened = computed(() => getPedidosList().length > 0);
 
     ngOnInit() {
       console.log("Lista de modelos", this.modelList);
     }
 
-    calcularTotal() {
-        return pedidoList().reduce((acc, detalle) => acc + detalle.producto.modelo.precioVenta * detalle.cantidad, 0);
+    calcularTotal() : number {
+        return calcularTotalPedido();
     }
 
     eliminarProducto(pedidoId: number) {
-        eliminarProductoCarrito(pedidoId);
+        eliminarProductoPedido(pedidoId);
     }
 
-    finalizarPedido() {
+    continuarPedido() {
         console.log('Compra finalizada');
-        console.log(pedidoList());
+        console.log(getPedidosList());
     }
 
   }
