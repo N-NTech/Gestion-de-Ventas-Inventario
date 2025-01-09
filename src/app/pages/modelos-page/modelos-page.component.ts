@@ -52,9 +52,9 @@ export class ModelosPageComponent {
   
     constructor() { }
 
-    modelosServiceinject = inject(ModelosService);
+    modelosService = inject(ModelosService);
     
-    modelList = inject(ModelosService).modelos;
+    modelList = this.modelosService.modelos;
         
     pedidoList: Signal<DetallePedido[]>= computed(() => getPedidosList());
     

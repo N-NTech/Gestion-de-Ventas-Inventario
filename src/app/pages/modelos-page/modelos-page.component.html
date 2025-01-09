@@ -35,10 +35,15 @@
 
             <mat-sidenav-content>
                 <div class="flexList">
-                    @for (modelo of modelList(); track modelo.id) {
-                    <app-modelo-card [modelo]="modelo"/>
+                    @defer (when !modelosService.loading() && !modelosService.error()) {
+                        @for (modelo of modelList(); track modelo.id) {
+                            <app-modelo-card [modelo]="modelo"/>
+                        }
+                    } @loading {
+                        <h1>Cargando...</h1>
                     }
                 </div>
+                
             </mat-sidenav-content>
         </mat-sidenav-container>
     </div>

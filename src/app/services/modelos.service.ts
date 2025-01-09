@@ -1,92 +1,28 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Signal, computed, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Modelo } from '../shared/Interfaces';
-import { catchError, tap } from 'rxjs';
-
-interface ModelosState {
-  modelos: Modelo[];
-  loading: boolean;
-  error: string | null;
-}
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ModelosService {
+  private http = inject(HttpClient);
   private apiUrl = 'http://localhost:3000/modelo';
+
+  private modelosResource = rxResource<Modelo[], Error>({
+    loader: () => this.http.get<Modelo[]>(this.apiUrl)
+  })
   
-  // State
-  private state = signal<ModelosState>({
-    modelos: [],
-    loading: false,
-    error: null
-  });
+  modelos = this.modelosResource.value;
+  loading = this.modelosResource.isLoading;
+  error = this.modelosResource.error;
 
-  // Selectors
-  modelos: Signal<Modelo[]> = computed(() => this.state().modelos);
-  loading: Signal<boolean> = computed(() => this.state().loading);
-  error: Signal<string | null> = computed(() => this.state().error);
-
-  constructor(private http: HttpClient) {
-    this.loadModelos();
+  constructor() {
+    this.modelosResource.reload(); 
   }
 
-  // Actions
-
-  loadModelos(): void {
-    this.state.update(state => ({ ...state, loading: true }));
-    
-    this.http.get<Modelo[]>(this.apiUrl).pipe(
-      tap(modelos => {
-        this.state.set({
-          modelos,
-          loading: false,
-          error: null
-        });
-      }),
-      catchError(error => {
-        this.state.update(state => ({
-          ...state,
-          loading: false,
-          error: error.message
-        }));
-        throw error;
-      })
-    ).subscribe();
+  refresh(): void {
+    this.modelosResource.reload();
   }
-
-  // addModelo(modelo: Modelo): void {
-  //   this.http.post<Modelo>(this.apiUrl, modelo).pipe(
-  //     tap(newModelo => {
-  //       this.state.update(state => ({
-  //         ...state,
-  //         modelos: [...state.modelos, newModelo]
-  //       }));
-  //     })
-  //   ).subscribe();
-  // }
-
-  // updateModelo(modelo: Modelo): void {
-  //   this.http.put<Modelo>(`${this.apiUrl}/${modelo.id}`, modelo).pipe(
-  //     tap(updatedModelo => {
-  //       this.state.update(state => ({
-  //         ...state,
-  //         modelos: state.modelos.map(m => 
-  //           m.id === modelo.id ? updatedModelo : m
-  //         )
-  //       }));
-  //     })
-  //   ).subscribe();
-  // }
-
-  // deleteModelo(id: number): void {
-  //   this.http.delete(`${this.apiUrl}/${id}`).pipe(
-  //     tap(() => {
-  //       this.state.update(state => ({
-  //         ...state,
-  //         modelos: state.modelos.filter(m => m.id !== id)
-  //       }));
-  //     })
-  //   ).subscribe();
-  // }
 }
