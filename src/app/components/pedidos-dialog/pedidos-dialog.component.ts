@@ -25,17 +25,12 @@ interface AutoCompleteCompleteEvent {
 
 
 @Component({
-  selector: 'app-pedidos-dialog',
-  standalone: true,
-  imports: [FormsModule, TableModule, TagModule, IconFieldModule, InputTextModule, 
-    InputIconModule, MultiSelectModule, DropdownModule, 
-// TODO: `HttpClientModule` should not be imported into a component directly.
-// Please refactor the code to add `provideHttpClient()` call to the provider list in the
-// application bootstrap logic and remove the `HttpClientModule` import from this component.
-HttpClientModule, CommonModule, 
-    SpeedDialModule, DialogModule, AutoCompleteModule, CalendarModule,InputNumberModule,CheckboxModule],
-  templateUrl: './pedidos-dialog.component.html',
-  styleUrl: './pedidos-dialog.component.css'
+    selector: 'app-pedidos-dialog',
+    imports: [FormsModule, TableModule, TagModule, IconFieldModule, InputTextModule,
+        InputIconModule, MultiSelectModule, DropdownModule, CommonModule,
+        SpeedDialModule, DialogModule, AutoCompleteModule, CalendarModule, InputNumberModule, CheckboxModule],
+    templateUrl: './pedidos-dialog.component.html',
+    styleUrl: './pedidos-dialog.component.css'
 })
 export class PedidosDialogComponent {
   

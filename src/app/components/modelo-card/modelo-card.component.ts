@@ -12,21 +12,20 @@ import { agregarProductoPedido, getPedidosList } from '../../shared/pedido-store
 import { Modelo } from '../../shared/Interfaces';
 
 @Component({
-  selector: 'app-modelo-card',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    CurrencyPipe,
-    MatSelectModule,
-    FormsModule,
-    MatFormFieldModule
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./modelo-card.component.css'],
-  template: `
+    selector: 'app-modelo-card',
+    imports: [
+        CommonModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        CurrencyPipe,
+        MatSelectModule,
+        FormsModule,
+        MatFormFieldModule
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styleUrls: ['./modelo-card.component.css'],
+    template: `
     <mat-card class="product-card">
       <img mat-card-image [src]="modelo.imagen" [alt]="modelo.nombre">
       
@@ -70,7 +69,7 @@ import { Modelo } from '../../shared/Interfaces';
         </button>
       </mat-card-actions>
     </mat-card>
-  `,
+  `
 })
 export class ModeloCardComponent {
   @Input() modelo!: Modelo;

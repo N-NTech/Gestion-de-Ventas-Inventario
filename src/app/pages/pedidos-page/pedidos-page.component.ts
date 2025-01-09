@@ -62,21 +62,15 @@ export interface PedidoMatTable {
     selector: 'pedidos-page',
     templateUrl: 'pedidos-page.component.html',
     styleUrl: 'pedidos-page.component.css',
-    standalone: true,
     imports: [FormsModule, TableModule, TagModule, IconFieldModule, InputTextModule,
-        InputIconModule, MultiSelectModule, DropdownModule, 
-// TODO: `HttpClientModule` should not be imported into a component directly.
-// Please refactor the code to add `provideHttpClient()` call to the provider list in the
-// application bootstrap logic and remove the `HttpClientModule` import from this component.
-HttpClientModule, CommonModule,
+        InputIconModule, MultiSelectModule, DropdownModule, CommonModule,
         SpeedDialModule, DialogModule, AutoCompleteModule, CalendarModule, InputNumberModule,
         CheckboxModule, PedidosDialogComponent, MatCardModule, MatIconModule, MatPaginatorModule,
         MatSortModule, MatTableModule,
         MatInputModule, MatFormFieldModule, MatPaginator, MatSort, MatIcon,
         MatButtonModule, MatTooltipModule, MatDialogModule, MatSelectModule,
         MatChipsModule
-    ],
-    // encapsulation: ViewEncapsulation.None
+    ]
 })
 
 export class PedidosPageComponent implements OnInit {

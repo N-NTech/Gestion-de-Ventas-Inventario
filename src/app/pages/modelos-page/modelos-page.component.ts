@@ -26,28 +26,27 @@ import { ModelosService } from '../../services/modelos.service';
 
 
 @Component({
-  selector: 'app-modelos-page',
-  standalone: true,
-  imports: [
-    CommonModule, 
-    MatToolbarModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatCheckboxModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatInputModule,
-    ModeloCardComponent,
-    MatListModule,
-    MatDividerModule,
-    MatIconModule
-],
-providers: [ModelosService],
-  styleUrl: './modelos-page.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: `./modelos-page.component.html`,
+    selector: 'app-modelos-page',
+    imports: [
+        CommonModule,
+        MatToolbarModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatCheckboxModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatInputModule,
+        ModeloCardComponent,
+        MatListModule,
+        MatDividerModule,
+        MatIconModule
+    ],
+    providers: [ModelosService],
+    styleUrl: './modelos-page.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: `./modelos-page.component.html`
 })
 export class ModelosPageComponent {
   
