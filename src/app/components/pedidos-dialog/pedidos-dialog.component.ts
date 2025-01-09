@@ -3,7 +3,7 @@ import {  OnInit } from '@angular/core';
 import { TagModule } from 'primeng/tag';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
-import { HttpClientModule } from '@angular/common/http';
+import {} from '@angular/common/http';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DropdownModule } from 'primeng/dropdown';
@@ -28,7 +28,11 @@ interface AutoCompleteCompleteEvent {
   selector: 'app-pedidos-dialog',
   standalone: true,
   imports: [FormsModule, TableModule, TagModule, IconFieldModule, InputTextModule, 
-    InputIconModule, MultiSelectModule, DropdownModule, HttpClientModule, CommonModule, 
+    InputIconModule, MultiSelectModule, DropdownModule, 
+// TODO: `HttpClientModule` should not be imported into a component directly.
+// Please refactor the code to add `provideHttpClient()` call to the provider list in the
+// application bootstrap logic and remove the `HttpClientModule` import from this component.
+HttpClientModule, CommonModule, 
     SpeedDialModule, DialogModule, AutoCompleteModule, CalendarModule,InputNumberModule,CheckboxModule],
   templateUrl: './pedidos-dialog.component.html',
   styleUrl: './pedidos-dialog.component.css'
