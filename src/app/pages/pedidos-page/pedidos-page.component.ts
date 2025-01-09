@@ -1,22 +1,8 @@
 import { Component, OnInit, viewChild, ViewChild, ViewEncapsulation } from '@angular/core';
-import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
 import {} from '@angular/common/http';
-import { InputTextModule } from 'primeng/inputtext';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { DropdownModule } from 'primeng/dropdown';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Estado } from '../../shared/enums/estado.enum';
-import { SpeedDialModule } from 'primeng/speeddial';
-import { DialogModule } from 'primeng/dialog';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import { CalendarModule } from 'primeng/calendar';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { CheckboxModule } from 'primeng/checkbox';
-import { PedidosDialogComponent } from '../../components/pedidos-dialog/pedidos-dialog.component';
 import { PedidosService } from '../../services/pedidos.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -62,13 +48,21 @@ export interface PedidoMatTable {
     selector: 'pedidos-page',
     templateUrl: 'pedidos-page.component.html',
     styleUrl: 'pedidos-page.component.css',
-    imports: [FormsModule, TableModule, TagModule, IconFieldModule, InputTextModule,
-        InputIconModule, MultiSelectModule, DropdownModule, CommonModule,
-        SpeedDialModule, DialogModule, AutoCompleteModule, CalendarModule, InputNumberModule,
-        CheckboxModule, PedidosDialogComponent, MatCardModule, MatIconModule, MatPaginatorModule,
-        MatSortModule, MatTableModule,
-        MatInputModule, MatFormFieldModule, MatPaginator, MatSort, MatIcon,
-        MatButtonModule, MatTooltipModule, MatDialogModule, MatSelectModule,
+    imports: [FormsModule,
+        CommonModule, 
+        MatCardModule, 
+        MatIconModule, 
+        MatPaginatorModule,
+        MatSortModule, 
+        MatTableModule,
+        MatInputModule, 
+        MatFormFieldModule, 
+        MatPaginator, 
+        MatSort, MatIcon,
+        MatButtonModule, 
+        MatTooltipModule, 
+        MatDialogModule, 
+        MatSelectModule,
         MatChipsModule
     ]
 })
@@ -90,9 +84,6 @@ export class PedidosPageComponent implements OnInit {
 
     @ViewChild(MatSort)
     sort!: MatSort | null;
-
-    @ViewChild(PedidosDialogComponent)
-    dialog!: PedidosDialogComponent;
 
 
     selectedPedido = {
@@ -237,8 +228,6 @@ export class PedidosPageComponent implements OnInit {
 
     editarPedido(pedido: any) {
         this.selectedPedido = pedido;
-        this.dialog.showDialog = true
-        this.dialog.isNuevoPedido = false
         console.log(pedido)
     }
 
@@ -259,8 +248,7 @@ export class PedidosPageComponent implements OnInit {
             lugar: '',
             esEnvio: false
         }
-        this.dialog.showDialog = true
-        this.dialog.isNuevoPedido = true
+
     }
 
     nuevoPedido() {
