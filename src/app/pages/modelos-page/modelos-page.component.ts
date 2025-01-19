@@ -52,16 +52,16 @@ export class ModelosPageComponent {
   
     constructor() { }
 
-    modelosService = inject(ModelosService);
-    
-    modelList = this.modelosService.modelos;
-        
+    private modelosService = inject(ModelosService);
+
+    modelResource = this.modelosService.modelResourcePublic;
+   
     pedidoList: Signal<DetallePedido[]>= computed(() => getPedidosList());
     
     PedidoSideOpened = computed(() => getPedidosList().length > 0);
 
     ngOnInit() {
-      console.log("Lista de modelos", this.modelList);
+      console.log("Lista de modelos", this.modelResource.modelos);
     }
 
     calcularTotal() : number {
