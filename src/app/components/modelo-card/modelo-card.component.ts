@@ -40,7 +40,7 @@ import { Modelo } from '../../shared/Interfaces';
           <mat-form-field class="col-5">
             <mat-label>Talle</mat-label>
             <mat-select [(ngModel)]="selectedTalle">
-            @for (talle of listaTalles; track modelo.id) {
+            @for (talle of listaTalles; track talle) {
                 <mat-option [value]="talle">
                     {{talle}}
                 </mat-option>

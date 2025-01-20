@@ -12,7 +12,7 @@
                     <h3>Nuevo pedido</h3> 
                 </div>
                 <mat-list>
-                    @for (pedido of pedidoList(); track pedido.producto.modelo.id) {
+                    @for (pedido of pedidoList(); track pedido) {
                         <mat-divider *ngIf="pedidoList().indexOf(pedido) !== 0"></mat-divider>
                         <mat-list-item>
                             <span matListItemTitle>{{pedido.producto.modelo.nombre}}</span>
