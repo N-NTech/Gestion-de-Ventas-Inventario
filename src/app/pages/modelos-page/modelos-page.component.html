@@ -3,51 +3,68 @@
         <div class="col col-titulo">
             <h1><i class="bi bi-box-seam"></i> Crear Pedido</h1>
         </div>
-        <mat-sidenav-container>
-            <mat-sidenav #sidenav mode="side" [fixedInViewport]="true" 
-                [fixedTopGap]="pedidoList().length <= 5 ? 140 : 20" 
-                [fixedBottomGap]="pedidoList().length <= 5 ? 140 : 20"	
-                [opened]="PedidoSideOpened()" [position]="'end'" class="w-20">
-                <div class="header-sidenav">
-                    <h3>Nuevo pedido</h3> 
+        <mat-stepper  [linear]="true" #stepper>
+            <mat-step #StepUno [editable]="true" label="Seleccionar productos">
+                <mat-sidenav-container>
+                    <mat-sidenav #sidenav mode="side" [fixedInViewport]="true" 
+                        [fixedTopGap]="pedidoList().length <= 5 ? 140 : 20" 
+                        [fixedBottomGap]="pedidoList().length <= 5 ? 140 : 20"	
+                        [opened]="PedidoSideOpened()" [position]="'end'" class="w-20">
+                        <div class="header-sidenav">
+                            <h3>Nuevo pedido</h3> 
+                        </div>
+                        <mat-list>
+                            @for (pedido of pedidoList(); track pedido) {
+                                <mat-divider *ngIf="pedidoList().indexOf(pedido) !== 0"></mat-divider>
+                                <mat-list-item>
+                                    <span matListItemTitle>{{pedido.producto.modelo.nombre}}</span>
+                                    <span matListItemLine>{{pedido.producto.modelo.variante + " " + pedido.producto.talle + " (x" +pedido.cantidad+")"}}</span>
+                                    <span matListItemLine>{{pedido.producto.modelo.precioVenta * pedido.cantidad | currency}}</span>
+                                    <button disableRipple matListItemMeta mat-icon-button class="delete-button-sidenav" (click)="eliminarProducto(pedido.id)">
+                                        <mat-icon class="icon-sidenav">delete</mat-icon>
+                                      </button>
+                                  </mat-list-item>
+                            }
+                        </mat-list>
+                        <div class="footer-sidenav">
+                            <mat-divider></mat-divider>
+                            <p>TOTAL: {{calcularTotal() | currency}}</p>
+                            <button matStepperNext mat-stroked-button color="primary" [disabled]="pedidoList().length === 0">
+                                Continuar pedido
+                            </button>
+                        </div>
+                    </mat-sidenav>
+        
+                    <mat-sidenav-content>
+                        <div class="flexList">
+                            @if (!modelResource.loading() && !modelResource.error()) {
+                                @for (modelo of modelResource.modelos(); track modelo.id) {
+                                    <app-modelo-card [modelo]="modelo"/>
+                                }
+                            } @else if (modelResource.error()) {
+                                <h1>Error al cargar los modelos</h1>
+                            } @else {
+                                <h1>Cargando...</h1>
+                            }
+                        </div>
+                        
+                    </mat-sidenav-content>
+                </mat-sidenav-container>
+            </mat-step>
+            <mat-step [stepControl]="formClienteControl!" [editable]="true" label="Datos del cliente">
+                <app-datos-pedido-form/>
+                <div class="button-row">
+                    <button mat-button matStepperPrevious>Atrás</button>
+                    <button mat-button matStepperNext>Siguente</button>
                 </div>
-                <mat-list>
-                    @for (pedido of pedidoList(); track pedido) {
-                        <mat-divider *ngIf="pedidoList().indexOf(pedido) !== 0"></mat-divider>
-                        <mat-list-item>
-                            <span matListItemTitle>{{pedido.producto.modelo.nombre}}</span>
-                            <span matListItemLine>{{pedido.producto.modelo.variante + " " + pedido.producto.talle + " (x" +pedido.cantidad+")"}}</span>
-                            <span matListItemLine>{{pedido.producto.modelo.precioVenta * pedido.cantidad | currency}}</span>
-                            <button disableRipple matListItemMeta mat-icon-button class="delete-button-sidenav" (click)="eliminarProducto(pedido.id)">
-                                <mat-icon class="icon-sidenav">delete</mat-icon>
-                              </button>
-                          </mat-list-item>
-                    }
-                </mat-list>
-                <div class="footer-sidenav">
-                    <mat-divider></mat-divider>
-                    <p>TOTAL: {{calcularTotal() | currency}}</p>
-                    <button mat-stroked-button color="primary" [disabled]="pedidoList().length === 0" (click)="continuarPedido()">
-                        Continuar pedido
-                    </button>
-                </div>
-            </mat-sidenav>
-
-            <mat-sidenav-content>
-                <div class="flexList">
-                    @if (!modelResource.loading() && !modelResource.error()) {
-                        @for (modelo of modelResource.modelos(); track modelo.id) {
-                            <app-modelo-card [modelo]="modelo"/>
-                        }
-                    } @else if (modelResource.error()) {
-                        <h1>Error al cargar los modelos</h1>
-                    } @else {
-                        <h1>Cargando...</h1>
-                    }
-                </div>
-                
-            </mat-sidenav-content>
-        </mat-sidenav-container>
+            </mat-step>
+            <mat-step [editable]="false" label="Finalizar">
+                <app-confirmar-pedido/>
+              <div>
+                <button mat-button matStepperPrevious>Atrás</button>
+              </div>
+            </mat-step>
+          </mat-stepper>
     </div>
 
     <!-- termina container -->

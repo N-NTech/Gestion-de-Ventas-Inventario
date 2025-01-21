@@ -1,0 +1,41 @@
+<mat-card class="confirmation-card">
+  <mat-card-header>
+    <mat-card-title>Confirmar Pedido</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="info-grid">
+      <div class="info-section">
+        <h3>Datos del Cliente</h3>
+        <p><strong>Nombre:</strong> {{datosCliente().get('nombre')}}</p>
+        <p><strong>Teléfono:</strong> {{datosCliente().get('telefono')}}</p>
+        <p><strong>Dirección:</strong> {{datosCliente().get('direccion')}}</p>
+      </div>
+
+      <div class="info-section">
+        <h3>Detalles del Pedido</h3>
+        <p><strong>Método de Pago:</strong> {{datosCliente().get('metodoPago')}}</p>
+        <p><strong>Envío:</strong> {{datosCliente().get('envio') ? 'Sí' : 'No'}}</p>
+        <p><strong>Estado:</strong> {{datosCliente().get('estado')}}</p>
+      </div>
+
+      <div class="info-section">
+        <h3>Información de Precios</h3>
+        <p><strong>Precio de Costo:</strong> ${{datosCliente().get('precioCosto')}}</p>
+        <p><strong>Precio de Venta:</strong> ${{datosCliente().get('precioVenta')}}</p>
+      </div>
+
+      <div class="info-section">
+        <h3>Productos</h3>
+        @for (producto of datosPedido(); track $index) {
+          <p><strong>{{getNombre(producto)}}</strong> x{{producto.cantidad}}</p>
+        }
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button mat-button color="warn">Cancelar</button>
+    <button mat-raised-button (click)="confirmarPedido()" color="primary">Confirmar Pedido</button>
+  </mat-card-actions>
+</mat-card>

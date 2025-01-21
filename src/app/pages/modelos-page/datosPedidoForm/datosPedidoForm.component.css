@@ -1,0 +1,15 @@
+/* :host {
+  display: block;
+} */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+}
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  height: 56px; /* Match height of mat-form-field */
+}

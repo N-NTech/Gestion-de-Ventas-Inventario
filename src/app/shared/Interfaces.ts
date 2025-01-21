@@ -29,3 +29,20 @@ export interface DetallePedido {
     producto: Producto;
     cantidad: number;
 }
+export interface Cliente {
+    nombre: string;
+    telefono: string;
+}
+
+export interface newPedido {
+    cliente: Cliente;
+    fechaCreacion: string;
+    fechaDespacho: string;
+    metodoDePago: string;
+    estado: string;
+    productos: any[];
+    precioVenta: number;
+    precioCosto: number;
+    isEnvio: boolean;
+    direccion: string;
+}

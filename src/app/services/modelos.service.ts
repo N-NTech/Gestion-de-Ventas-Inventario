@@ -14,8 +14,7 @@ export class ModelosService {
   private modelosResource = rxResource<Modelo[], Error>({
     loader: () => this.http.get<Modelo[]>(this.apiUrl).pipe(
       map((response: any) => response),
-      delay(5000),
-
+      // delay(5000),
     )
   })
   

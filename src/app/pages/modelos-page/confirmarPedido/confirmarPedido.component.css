@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.confirmation-card {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+.info-section {
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+.info-section h3 {
+  margin-top: 0;
+  color: #fff9f9;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 8px;
+}
+mat-card-actions {
+  padding: 16px;
+  gap: 8px;
+}
