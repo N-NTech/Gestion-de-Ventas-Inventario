@@ -28,3 +28,12 @@ mat-card-actions {
   padding: 16px;
   gap: 8px;
 }
+
+mat-card{
+  background-color: #181e38;
+}
+
+.confirm-button {
+  background-color: #0b0d26;
+  color: white;
+}

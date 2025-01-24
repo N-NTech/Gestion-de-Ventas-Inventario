@@ -1,4 +1,4 @@
-import { DetallePedido, Producto } from './Interfaces';
+import { DetallePedido, newPedido, Producto } from './Interfaces';
 import { computed, Signal, signal, WritableSignal } from '@angular/core';
 
 const state = signal({
@@ -74,8 +74,16 @@ function eliminarProductoPedido(pedidoId: number) {
   );
 }
 
+function confirmarPedidoState(pedido: newPedido) {
+  console.log("Pedido Confirmado desde el store", pedido);
+}
+
 function calcularTotalPedido() {
   return getPedidosList().reduce((acc: number, detalle: DetallePedido) => acc + detalle.producto.modelo.precioVenta * detalle.cantidad, 0);
 }
 
-export { state, agregarProductoPedido, eliminarProductoPedido, getPedidosList, calcularTotalPedido, agregarDatosCliente, getDatosCliente };
+function reiniciarPedidoState(){
+  state.set({pedidoList: new Map<number, DetallePedido>(), datosCliente: new Map<string, string>()});
+}
+
+export { state, agregarProductoPedido, eliminarProductoPedido, getPedidosList, calcularTotalPedido, agregarDatosCliente, getDatosCliente, reiniciarPedidoState, confirmarPedidoState };
