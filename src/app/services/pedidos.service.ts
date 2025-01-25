@@ -9,9 +9,8 @@ import { Observable } from 'rxjs';
 export class PedidosService {
 
    private apiUrl = environment.apiUrl;
+   http = inject(HttpClient);
    
-
-  constructor(private http:HttpClient) { }
 
   getAllPedidos(): Observable<any> {
     return this.http.get(`${this.apiUrl}/pedido`)

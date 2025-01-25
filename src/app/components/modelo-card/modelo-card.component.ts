@@ -93,7 +93,10 @@ export class ModeloCardComponent {
 
   addToPedido() {
 
-    agregarProductoPedido(this.selectedProducto()!, this.cantidad);
+    const productoParaPedido = structuredClone(this.selectedProducto()!);
+    productoParaPedido.modelo = { ...productoParaPedido.modelo, productos: [] };
+
+    agregarProductoPedido(productoParaPedido, this.cantidad);
 
     this._snackBar.open(`Agregado al pedido: ${this.modelo.marca.nombre} ${this.modelo.nombre} ${this.modelo.variante} ${this.selectedTalle()} (x${this.cantidad})`, 'X', {
       duration: 5000,

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
-import { confirmarPedidoState, getDatosCliente, getPedidosList, reiniciarPedidoState } from '../../../shared/pedido-store';
+import { getDatosCliente, getPedidosList, PedidosStore, reiniciarPedidoState } from '../../../shared/pedido-store';
 import { DetallePedido } from '../../../shared/Interfaces';
 import { getNombreLargoDetallePedido } from '../../../utils/pedidosUtils';
 import { newPedido } from '../../../shared/Interfaces';
@@ -18,8 +18,9 @@ import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmarPedidoComponent {
-  constructor(private router: Router) {}
 
+  router = inject(Router);
+  pedidosStore = inject(PedidosStore);	
   datosCliente: Signal<any> = getDatosCliente;
   datosPedido: Signal<DetallePedido[]> = computed(() => getPedidosList());
 
@@ -43,6 +44,8 @@ export class ConfirmarPedidoComponent {
 
   confirmarPedido() {
 
+    console.log("Confirmar Pedido");
+
       //TODO: Modificar backend para poder pedir cantidad de productos
 
     let newPedido: newPedido = {
@@ -61,10 +64,17 @@ export class ConfirmarPedidoComponent {
         direccion: this.datosCliente().get('direccion'),
     }
 
-    confirmarPedidoState(newPedido);
+    console.log("Pegandole al backend", newPedido);
 
-    this.openConfirmPedidoDialog();
-    
+    this.pedidosStore.postNewPedido(newPedido).subscribe({
+      next: (res) => {
+        console.log("Pedido creado", res);
+        this.openConfirmPedidoDialog();
+      },
+      error: (err) => {
+        console.error("Error al crear pedido", err);
+      }
+    });   
   }
 }
 

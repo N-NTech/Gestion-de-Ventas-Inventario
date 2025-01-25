@@ -1,5 +1,21 @@
+import { Observable } from 'rxjs';
+import { PedidosService } from '../services/pedidos.service';
 import { DetallePedido, newPedido, Producto } from './Interfaces';
-import { computed, Signal, signal, WritableSignal } from '@angular/core';
+import { computed, inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PedidosStore {
+  http = inject(HttpClient);
+  apiUrl = environment.apiUrl
+
+  postNewPedido(pedido: newPedido): Observable<any> {
+    return this.http.post(`${this.apiUrl}/pedido`, pedido)
+  }
+}
 
 const state = signal({
   pedidoList: new Map<number, DetallePedido>(),
@@ -74,10 +90,6 @@ function eliminarProductoPedido(pedidoId: number) {
   );
 }
 
-function confirmarPedidoState(pedido: newPedido) {
-  console.log("Pedido Confirmado desde el store", pedido);
-}
-
 function calcularTotalPedido() {
   return getPedidosList().reduce((acc: number, detalle: DetallePedido) => acc + detalle.producto.modelo.precioVenta * detalle.cantidad, 0);
 }
@@ -86,4 +98,4 @@ function reiniciarPedidoState(){
   state.set({pedidoList: new Map<number, DetallePedido>(), datosCliente: new Map<string, string>()});
 }
 
-export { state, agregarProductoPedido, eliminarProductoPedido, getPedidosList, calcularTotalPedido, agregarDatosCliente, getDatosCliente, reiniciarPedidoState, confirmarPedidoState };
+export { state, agregarProductoPedido, eliminarProductoPedido, getPedidosList, calcularTotalPedido, agregarDatosCliente, getDatosCliente, reiniciarPedidoState };
