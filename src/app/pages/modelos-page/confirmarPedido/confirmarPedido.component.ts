@@ -57,7 +57,7 @@ export class ConfirmarPedidoComponent {
         fechaDespacho: new Date().toISOString(),
         metodoDePago: this.datosCliente().get('metodoPago'),
         estado: this.datosCliente().get('estado'),
-        productos: this.datosPedido(), //TODO revisar si este atributo debe ser DetallePedido[] o Producto[],
+        detalle: this.datosPedido(), //TODO revisar si este atributo debe ser DetallePedido[] o Producto[],
         precioVenta: this.datosCliente().get('precioVenta'),
         precioCosto: this.datosCliente().get('precioCosto'),
         isEnvio: this.datosCliente().get('envio'),

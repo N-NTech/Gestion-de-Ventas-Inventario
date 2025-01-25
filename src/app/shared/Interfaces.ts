@@ -39,7 +39,7 @@ export interface newPedido {
     fechaDespacho: string;
     metodoDePago: string;
     estado: string;
-    productos: DetallePedido[];
+    detalle: DetallePedido[];
     precioVenta: number;
     precioCosto: number;
     isEnvio: boolean;
