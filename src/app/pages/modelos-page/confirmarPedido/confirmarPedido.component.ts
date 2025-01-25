@@ -44,6 +44,8 @@ export class ConfirmarPedidoComponent {
 
   confirmarPedido() {
 
+    //TODO: modificar backend, tabla detalles en lugar de pedido_producto
+
     console.log("Confirmar Pedido");
 
       //TODO: Modificar backend para poder pedir cantidad de productos
@@ -57,9 +59,9 @@ export class ConfirmarPedidoComponent {
         fechaDespacho: new Date().toISOString(),
         metodoDePago: this.datosCliente().get('metodoPago'),
         estado: this.datosCliente().get('estado'),
-        detalle: this.datosPedido(), //TODO revisar si este atributo debe ser DetallePedido[] o Producto[],
-        precioVenta: this.datosCliente().get('precioVenta'),
-        precioCosto: this.datosCliente().get('precioCosto'),
+        detallePedido: this.datosPedido(), //TODO revisar si este atributo debe ser DetallePedido[] o Producto[],
+        precioFinal: this.datosCliente().get('precioVenta'),
+        costoTotal: this.datosCliente().get('precioCosto'),
         isEnvio: this.datosCliente().get('envio'),
         direccion: this.datosCliente().get('direccion'),
     }

@@ -45,7 +45,7 @@ function agregarProductoPedido(producto: Producto, cantidad: number) {
     newPedidoList.set(pedidoExistente.producto.id, pedidoActualizado);
   } else {
     const id = Math.max(0, ...Array.from(newPedidoList.keys())) + 1;
-    const detallePedido: DetallePedido = { producto, cantidad };
+    const detallePedido: DetallePedido = { producto, cantidad, precioDeCosto: producto.modelo.precioCosto * cantidad, precioDeVenta: producto.modelo.precioVenta * cantidad };
     newPedidoList.set(id, detallePedido);
   }
 

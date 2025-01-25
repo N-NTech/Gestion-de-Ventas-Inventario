@@ -58,7 +58,7 @@
                                 </span>
     
                                 <span *ngIf="row.productList?.length === 1">
-                                    {{ row.productoMarca + " " + row.productoModelo + " " + row.productoVariante + " " + row.productoTalle }}
+                                    {{ row.productoMarca + " " + row.productoModelo + " " + row.productoVariante + " " + row.productoTalle + " (x" + row.cantidad + ")" }}
                                 </span>
     
                                 <span *ngIf="row.productList?.length > 1" [matTooltip]="row.productNombreList">

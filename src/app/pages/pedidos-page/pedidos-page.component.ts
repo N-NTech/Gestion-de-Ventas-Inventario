@@ -20,6 +20,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { Router } from '@angular/router';
+import { DetallePedido, newPedido } from '../../shared/Interfaces';
 
 export interface PedidoMatTable {
     id: string;
@@ -41,6 +42,7 @@ export interface PedidoMatTable {
     precioVenta: string;
     precioCosto: string;
     isEnvio: boolean;
+    cantidad?: number;
   }
 
 
@@ -117,7 +119,7 @@ export class PedidosPageComponent implements OnInit {
     ngOnInit() {
 
         this.pedidosService.getAllPedidos().subscribe({
-            next: (pedidos: any[]) => {
+            next: (pedidos: newPedido[]) => {
                 console.log(pedidos);
                 this.pedidos = pedidos;
                 this.dataSource = new MatTableDataSource(this.pedidos.map(pedidoToPedidoMatTable));
@@ -267,7 +269,7 @@ export class PedidosPageComponent implements OnInit {
 
 function pedidoToPedidoMatTable(pedido: any): PedidoMatTable {
 
-    const listaDeNombres: string[] = pedido.productos.map((pedido:any) => `⚪${pedido.modelo?.nombre} ${pedido.modelo?.variante} ${pedido.talle}`).join("\n");
+    const listaDeNombres: string[] = pedido.detallePedido.map((detalle:DetallePedido) => `⚪${detalle.producto?.modelo?.nombre} ${detalle.producto?.modelo?.variante} ${detalle.producto?.talle} x${detalle.cantidad}`).join("\n");
   
     const pedidoMatTable: PedidoMatTable =  {
       id: pedido.id.toString(),
@@ -283,15 +285,16 @@ function pedidoToPedidoMatTable(pedido: any): PedidoMatTable {
       precioVenta: pedido.precioVenta,
       precioCosto: pedido.precioCosto,
       isEnvio: pedido.isEnvio,
-      productList: pedido.productos
+      productList: pedido.detallePedido
     }
   
-    if(pedido.productos.length > 0){
-      pedidoMatTable.productoModelo = pedido.productos[0].modelo?.nombre
-      pedidoMatTable.productoMarca = pedido.productos[0].modelo?.marca?.nombre
-      pedidoMatTable.productoVariante = pedido.productos[0].modelo?.variante
-      pedidoMatTable.productoTalle = pedido.productos[0].talle
-      pedidoMatTable.productoCategoria = pedido.productos[0].categoria?.nombre
+    if(pedido.detallePedido.length > 0){
+      pedidoMatTable.productoModelo = pedido.detallePedido[0].producto?.modelo?.nombre
+      pedidoMatTable.productoMarca = pedido.detallePedido[0].producto?.modelo?.marca?.nombre
+      pedidoMatTable.productoVariante = pedido.detallePedido[0].producto?.modelo?.variante
+      pedidoMatTable.productoTalle = pedido.detallePedido[0].producto?.talle
+      pedidoMatTable.productoCategoria = pedido.detallePedido[0].producto?.categoria?.nombre
+      pedidoMatTable.cantidad = pedido.detallePedido[0].cantidad
     }
   
     return pedidoMatTable

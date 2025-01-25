@@ -27,6 +27,8 @@ export interface Producto {
 export interface DetallePedido {
     producto: Producto;
     cantidad: number;
+    precioDeCosto: number;
+    precioDeVenta: number;
 }
 export interface Cliente {
     nombre: string;
@@ -39,9 +41,9 @@ export interface newPedido {
     fechaDespacho: string;
     metodoDePago: string;
     estado: string;
-    detalle: DetallePedido[];
-    precioVenta: number;
-    precioCosto: number;
+    detallePedido: DetallePedido[];
+    precioFinal: number;
+    costoTotal: number;
     isEnvio: boolean;
     direccion: string;
 }

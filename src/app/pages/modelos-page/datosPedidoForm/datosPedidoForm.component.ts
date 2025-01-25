@@ -10,6 +10,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { agregarDatosCliente } from '../../../shared/pedido-store';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
+import { capitalizar } from '../../../utils/pedidosUtils';
 
 @Component({
   selector: 'app-datos-pedido-form',
@@ -58,11 +59,12 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
       <mat-form-field>
         <mat-label>Método de Pago</mat-label>
         <mat-select formControlName="metodoPago" required>
-          <mat-option value="Efectivo">Efectivo</mat-option>
-          <mat-option value="Transferencia">Transferencia</mat-option>
+          <mat-option value="EFECTIVO">Efectivo</mat-option>
+          <mat-option value="TRANSFERENCIA">Transferencia</mat-option>
           <mat-option value="QR">QR</mat-option>
-          <mat-option value="Link de pago">Link de pago</mat-option>
-          <mat-option value="Tarjeta">Tarjeta</mat-option>
+          <mat-option value="LINK_DE_PAGO">Link de pago</mat-option>
+          <mat-option value="TARJETA_DEBITO">Tarjeta</mat-option>
+          <mat-option value="TARJETA_CREDITO">Tarjeta</mat-option>
 
         </mat-select>
       </mat-form-field>
@@ -71,7 +73,7 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
         <mat-label>Estado</mat-label>
         <mat-select formControlName="estado" required>
           @for (estado of estados; track estado) {
-            <mat-option [value]="estado">{{estado}}</mat-option>
+            <mat-option [value]="estado">{{capitalizar(estado)}}</mat-option>
           }
         </mat-select>
       </mat-form-field>
@@ -83,12 +85,12 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 })
 export class DatosPedidoFormComponent {
   private _formBuilder = inject(FormBuilder);
-  protected estados = ['NUEVO PEDIDO', 'Enviado', 'Entregado', 'Cancelado'];
+  protected estados = ['NUEVO PEDIDO', 'PAGO PENDIENTE', 'RETIRO PENDIENTE', 'ENVIO PENDIENTE', 'ENTREGADO', 'CANCELADO', 'SIN STOCK'];
 
   datosPedidosForm = this._formBuilder.group({
     nombre: ['', [Validators.required, Validators.minLength(3)]],
     telefono: ['1122334455', [Validators.required, Validators.minLength(8)]],
-    metodoPago: ['Efectivo', Validators.required],
+    metodoPago: ['EFECTIVO', Validators.required],
     envio: [true],
     direccion: ['Avenida siempre viva 123', [Validators.required, Validators.minLength(5)]],
     precioCosto: ['25000', Validators.required],
@@ -120,6 +122,10 @@ export class DatosPedidoFormComponent {
       .subscribe(() => {
         this.confirmarDatosCliente();
       });
+  }
+
+  capitalizar(string: string) {
+    return capitalizar(string)
   }
 
   confirmarDatosCliente() {
