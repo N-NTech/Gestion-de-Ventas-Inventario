@@ -42,10 +42,10 @@ function agregarProductoPedido(producto: Producto, cantidad: number) {
       ...pedidoExistente,
       cantidad: pedidoExistente.cantidad + cantidad
     };
-    newPedidoList.set(pedidoExistente.id, pedidoActualizado);
+    newPedidoList.set(pedidoExistente.producto.id, pedidoActualizado);
   } else {
     const id = Math.max(0, ...Array.from(newPedidoList.keys())) + 1;
-    const detallePedido: DetallePedido = { id, producto, cantidad };
+    const detallePedido: DetallePedido = { producto, cantidad };
     newPedidoList.set(id, detallePedido);
   }
 
@@ -79,9 +79,12 @@ function agregarDatosCliente(datosCliente: Partial<any>) {
 }
 
 
-function eliminarProductoPedido(pedidoId: number) {
+function eliminarProductoPedido(pedido: DetallePedido) {
   const updatedPedidoList = new Map(state().pedidoList);
-  updatedPedidoList.delete(pedidoId);
+  const keyToDelete = Array.from(updatedPedidoList.entries()).find(([_, value]) => value === pedido)?.[0];
+  if (keyToDelete !== undefined) {
+    updatedPedidoList.delete(keyToDelete);
+  }
   state.set(
     { 
       pedidoList: updatedPedidoList,

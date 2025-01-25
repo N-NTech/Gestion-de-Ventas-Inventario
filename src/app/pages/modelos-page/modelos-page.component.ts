@@ -83,8 +83,8 @@ export class ModelosPageComponent {
         return calcularTotalPedido();
     }
 
-    eliminarProducto(pedidoId: number) {
-        eliminarProductoPedido(pedidoId);
+    eliminarProducto(pedido: DetallePedido) {
+        eliminarProductoPedido(pedido);
     }
 
     ValidarPasoUno() {

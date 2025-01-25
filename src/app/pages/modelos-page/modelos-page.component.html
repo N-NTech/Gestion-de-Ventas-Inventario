@@ -20,7 +20,7 @@
                                     <span matListItemTitle>{{pedido.producto.modelo.nombre}}</span>
                                     <span matListItemLine>{{pedido.producto.modelo.variante + " " + pedido.producto.talle + " (x" +pedido.cantidad+")"}}</span>
                                     <span matListItemLine>{{pedido.producto.modelo.precioVenta * pedido.cantidad | currency}}</span>
-                                    <button disableRipple matListItemMeta mat-icon-button class="delete-button-sidenav" (click)="eliminarProducto(pedido.id)">
+                                    <button disableRipple matListItemMeta mat-icon-button class="delete-button-sidenav" (click)="eliminarProducto(pedido)">
                                         <mat-icon class="icon-sidenav">delete</mat-icon>
                                       </button>
                                   </mat-list-item>
