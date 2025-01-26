@@ -21,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { Router } from '@angular/router';
 import { DetallePedido, newPedido } from '../../shared/Interfaces';
+import { getNombreLargoDetallePedido } from '../../utils/pedidosUtils';
 
 export interface PedidoMatTable {
     id: string;
@@ -195,26 +196,26 @@ export class PedidosPageComponent implements OnInit {
       }
   }
 
-  colorEstado(estado: string): any | undefined {
-    switch (estado) {
-        case 'NUEVO PEDIDO':
-            return '#014811';
-        case 'PAGO PENDIENTE':
-            return '#644200';
-        case 'ENVIO PENDIENTE':
-            return '#77791d';
-        case 'ENTREGADO':
-            return '#005176';
-        case 'CANCELADO':
-            return '#460000';
-        case 'RETIRO PENDIENTE':
-            return '#644200';
-        case 'SIN STOCK':
-            return '#2d2d30';
-        default:
-            return undefined;
+    colorEstado(estado: string): any | undefined {
+        switch (estado) {
+            case 'NUEVO PEDIDO':
+                return '#014811';
+            case 'PAGO PENDIENTE':
+                return '#644200';
+            case 'ENVIO PENDIENTE':
+                return '#77791d';
+            case 'ENTREGADO':
+                return '#005176';
+            case 'CANCELADO':
+                return '#460000';
+            case 'RETIRO PENDIENTE':
+                return '#644200';
+            case 'SIN STOCK':
+                return '#2d2d30';
+            default:
+                return undefined;
+            }
     }
-}
 
     cambiarEstado(pedido: any) {
         const estados = this.estados;
@@ -260,6 +261,27 @@ export class PedidosPageComponent implements OnInit {
     filter(event: any) {
         console.log(event);
         return this.pedidos;
+    }
+
+    getNombre(detallePedido: DetallePedido) {
+    return getNombreLargoDetallePedido(detallePedido);
+    }
+    
+    disponibilidadDetalle(detalle: DetallePedido) {
+
+        let clase = this.productoDispobible(detalle) ? 'color-green' : 'color-red';
+
+        return clase;
+    }
+
+    productoDispobible(detalle: DetallePedido) {
+        //TODO: Implementar
+        console.log(detalle.producto?.modelo?.variante)
+        if(detalle.producto?.modelo?.variante == 'Rojo y Negro con charol') {
+            return false;
+        } else {
+            return true
+        }
     }
 
 
