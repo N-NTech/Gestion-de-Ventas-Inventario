@@ -35,6 +35,7 @@ export interface Cliente {
 }
 
 export interface newPedido {
+    id?: number;
     cliente: Cliente;
     fechaCreacion: string;
     fechaDespacho: string;

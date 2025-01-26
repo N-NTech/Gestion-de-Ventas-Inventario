@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import {} from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -22,6 +22,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { Router } from '@angular/router';
 import { DetallePedido, newPedido } from '../../shared/Interfaces';
 import { getNombreLargoDetallePedido } from '../../utils/pedidosUtils';
+import {MatMenuModule} from '@angular/material/menu';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 export interface PedidoMatTable {
     id: string;
@@ -65,11 +67,17 @@ export interface PedidoMatTable {
         MatTooltipModule, 
         MatDialogModule, 
         MatSelectModule,
-        MatChipsModule
+        MatChipsModule,
+        MatMenuModule,
+        MatSnackBarModule
     ]
 })
 
 export class PedidosPageComponent implements OnInit {
+
+    private pedidosService = inject(PedidosService);
+    private router = inject(Router);
+    private _snackBar = inject(MatSnackBar);
 
     displayedColumns: string[] = ['id', 'clienteNombre', 'productNombreList', 'fechaCreacion', 'estado', 'direccion', 'Editar'];
 
@@ -90,15 +98,6 @@ export class PedidosPageComponent implements OnInit {
     pedidos: newPedido[] = [];
 
     dataSource!: MatTableDataSource<PedidoMatTable>;
-
-
-    constructor(
-        private readonly pedidosService: PedidosService,
-        private router: Router
-    ) {
-
-    }
-
 
     ngOnInit() {
 
@@ -233,6 +232,31 @@ export class PedidosPageComponent implements OnInit {
         } else {
             return true
         }
+    }
+
+    cambiarEstado(pedidoRow: any, estado: Estado) {
+
+        const pedido = this.pedidos.find(pedido => pedido.id == pedidoRow.id)
+
+        if (pedido){
+
+            pedido.estado = estado
+            pedidoRow.estado = estado
+
+            this.pedidosService.putPedido(pedido).subscribe({
+                next: (response) => {
+                    console.log('Estado actualizado:', response);
+                    this._snackBar.open(`Cambiado el estado del pedido ${pedido.id} a ${estado}`, 'X', {
+                        duration: 5000,
+                        panelClass: ['custom-snackbar'],
+                      });
+                },
+                error: (error) => {
+                    console.error('Error al actualizar estado:', error);
+                }
+            });
+        }
+
     }
 
 

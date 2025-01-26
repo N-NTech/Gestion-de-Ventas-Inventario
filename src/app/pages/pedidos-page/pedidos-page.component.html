@@ -32,6 +32,9 @@
                 <mat-form-field class="col-6">
                     <mat-label>Estado</mat-label>
                     <mat-select [(ngModel)]="selectedEstado" (selectionChange)="applyFilterEstado(selectedEstado)">
+                        <mat-option [value]="'TODOS'">
+                            <mat-chip [style]="{'background-color': colorEstado('TODOS')}">TODOS</mat-chip>
+                        </mat-option>
                         <mat-option *ngFor="let estado of estados" [value]="estado">
                             <mat-chip [style]="{'background-color': colorEstado(estado)}">{{estado}}</mat-chip>
                         </mat-option>
@@ -83,7 +86,14 @@
                         <ng-container matColumnDef="estado">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
                             <td mat-cell *matCellDef="let row"> 
-                                <mat-chip [style]="{'background-color': colorEstado(row.estado)}">{{row.estado}}</mat-chip>
+                                <mat-chip [matMenuTriggerFor]="cambiarEstadoMenu" [style]="{'background-color': colorEstado(row.estado)}">{{row.estado}}</mat-chip>
+                                <mat-menu #cambiarEstadoMenu="matMenu">
+                                    @for (estado of estados; track estado) {
+                                        <button mat-menu-item (click)="cambiarEstado(row, estado)">
+                                            <mat-chip [style]="{'background-color': colorEstado(estado)}">{{estado}}</mat-chip>
+                                        </button>
+                                    }
+                                </mat-menu>
                             </td>
                         </ng-container>
     
