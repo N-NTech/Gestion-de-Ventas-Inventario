@@ -97,8 +97,12 @@ function calcularTotalPedido() {
   return getPedidosList().reduce((acc: number, detalle: DetallePedido) => acc + detalle.producto.modelo.precioVenta * detalle.cantidad, 0);
 }
 
+function calcularCostoTotalPedido() {
+  return getPedidosList().reduce((acc: number, detalle: DetallePedido) => acc + detalle.producto.modelo.precioCosto * detalle.cantidad, 0);
+}
+
 function reiniciarPedidoState(){
   state.set({pedidoList: new Map<number, DetallePedido>(), datosCliente: new Map<string, string>()});
 }
 
-export { state, agregarProductoPedido, eliminarProductoPedido, getPedidosList, calcularTotalPedido, agregarDatosCliente, getDatosCliente, reiniciarPedidoState };
+export { state, agregarProductoPedido, eliminarProductoPedido, getPedidosList, calcularTotalPedido, agregarDatosCliente, getDatosCliente, reiniciarPedidoState, calcularCostoTotalPedido };

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, linkedSignal, OnChanges, Signal } from '@angular/core';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
-import { agregarDatosCliente } from '../../../shared/pedido-store';
+import { agregarDatosCliente, calcularCostoTotalPedido, calcularTotalPedido } from '../../../shared/pedido-store';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { capitalizar } from '../../../utils/pedidosUtils';
@@ -87,14 +87,16 @@ export class DatosPedidoFormComponent {
   private _formBuilder = inject(FormBuilder);
   protected estados = ['NUEVO PEDIDO', 'PAGO PENDIENTE', 'RETIRO PENDIENTE', 'ENVIO PENDIENTE', 'ENTREGADO', 'CANCELADO', 'SIN STOCK'];
 
+  precioVentaSignal = computed(() => calcularTotalPedido())
+
   datosPedidosForm = this._formBuilder.group({
     nombre: ['', [Validators.required, Validators.minLength(3)]],
     telefono: ['1122334455', [Validators.required, Validators.minLength(8)]],
     metodoPago: ['EFECTIVO', Validators.required],
     envio: [true],
     direccion: ['Avenida siempre viva 123', [Validators.required, Validators.minLength(5)]],
-    precioCosto: ['25000', Validators.required],
-    precioVenta: ['45000', Validators.required],
+    precioCosto: [0, Validators.required],
+    precioVenta: [0, Validators.required],
     estado: ['NUEVO PEDIDO', Validators.required],
   });
 
@@ -112,6 +114,20 @@ export class DatosPedidoFormComponent {
   formValues = toSignal(this.datosPedidosForm.valueChanges);
 
   constructor() {
+
+    //TODO: Estoy muy seguro que se tiene que poder lograr evitando el effect, revisar video de Gentleman
+    //Este effect actualiza el precio del form cuando se ajusta la señal de precioVenta que esta ligada a calcularTotalPedido()
+    effect(() => {
+      const nuevoPrecioVenta = this.precioVentaSignal();
+      const nuevoPrecioCosto = calcularCostoTotalPedido();
+
+      this.datosPedidosForm.controls.precioVenta.setValue(nuevoPrecioVenta);
+      this.datosPedidosForm.controls.precioCosto.setValue(nuevoPrecioCosto);
+
+      console.log("EFFECT")
+    });
+
+    console.log(calcularTotalPedido)
     //Subscribirse a formValues y ejecutar la actualizacion del state cuando hay cambios despues de 500ms, el valor es diferente y valido
     this.datosPedidosForm.valueChanges
       .pipe(
