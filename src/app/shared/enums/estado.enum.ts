@@ -5,5 +5,6 @@ export enum Estado {
     Entregado = 'ENTREGADO',
     Cancelado = 'CANCELADO',
     RetiroPendiente = 'RETIRO PENDIENTE',
-    SinStock = 'SIN STOCK'
+    SinStock = 'SIN STOCK',
+    Todos = 'TODOS'
 }

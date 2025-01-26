@@ -1,4 +1,4 @@
-import { Component, OnInit, viewChild, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {} from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -34,7 +34,6 @@ export interface PedidoMatTable {
     fechaDespacho: string;
     metodoDePago: string;
     productList: any[];
-    productNombreList?: string[];
     productoModelo?: string;
     productoMarca?: string;
     productoVariante?: string;
@@ -88,23 +87,7 @@ export class PedidosPageComponent implements OnInit {
     @ViewChild(MatSort)
     sort!: MatSort | null;
 
-
-    selectedPedido = {
-        id: null,
-        nombre: '',
-        estado: 'NUEVO PEDIDO',
-        producto: '',
-        fecha: new Date(),
-        precio: 0,
-        lugar: '',
-        esEnvio: false
-    }
-
-    numeroRandom = 22
-
-    modelosDisponibles = ["Nike", "Adidas", "Puma", "New Balance", "Converse", "Reebok", "Vans", "Fila", "Skechers", "Under Armour"]
-
-    pedidos: any[] = [];
+    pedidos: newPedido[] = [];
 
     dataSource!: MatTableDataSource<PedidoMatTable>;
 
@@ -177,7 +160,7 @@ export class PedidosPageComponent implements OnInit {
       
       this.inputFilter = '';
   
-      if (selectedEstado == 'Todos') {
+      if (selectedEstado == 'TODOS') {
         this.pedidosService.getAllPedidos().subscribe({
           next: (pedidos: any[]) => {
             this.pedidos = pedidos;
@@ -217,41 +200,12 @@ export class PedidosPageComponent implements OnInit {
             }
     }
 
-    cambiarEstado(pedido: any) {
-        const estados = this.estados;
-        let seguir = true
-        estados.forEach(estado => {
-            if (pedido.estado == estado && seguir) {
-                let indexDelEstadoActual = estados.indexOf(pedido.estado)
-                pedido.estado = indexDelEstadoActual < estados.length - 1 ? estados[indexDelEstadoActual + 1] : estados[0]
-                seguir = false
-            }
-        })
+    editarPedido(pedido: newPedido) {
+        console.log("Editar pedido", pedido)
     }
 
-    editarPedido(pedido: any) {
-        this.selectedPedido = pedido;
-        console.log(pedido)
-    }
-
-    eliminarPedido(pedido: any) {
+    eliminarPedido(pedido: newPedido) {
         console.log("Eliminar pedido", pedido)
-    }
-
-
-    nuevoPedidoOld() {
-
-        this.selectedPedido = {
-            id: null,
-            nombre: '',
-            estado: 'NUEVO PEDIDO',
-            producto: '',
-            fecha: new Date(),
-            precio: 0,
-            lugar: '',
-            esEnvio: false
-        }
-
     }
 
     nuevoPedido() {
@@ -264,19 +218,16 @@ export class PedidosPageComponent implements OnInit {
     }
 
     getNombre(detallePedido: DetallePedido) {
-    return getNombreLargoDetallePedido(detallePedido);
+        return getNombreLargoDetallePedido(detallePedido);
     }
     
-    disponibilidadDetalle(detalle: DetallePedido) {
-
+    disponibilidadDetalleClass(detalle: DetallePedido) {
         let clase = this.productoDispobible(detalle) ? 'color-green' : 'color-red';
-
         return clase;
     }
 
     productoDispobible(detalle: DetallePedido) {
-        //TODO: Implementar
-        console.log(detalle.producto?.modelo?.variante)
+        //TODO: Implementar metodo para revisar el stock y la disponibilidad de un producto en especifico considerando talle y cantidad
         if(detalle.producto?.modelo?.variante == 'Rojo y Negro con charol') {
             return false;
         } else {
@@ -290,8 +241,6 @@ export class PedidosPageComponent implements OnInit {
 
 
 function pedidoToPedidoMatTable(pedido: any): PedidoMatTable {
-
-    const listaDeNombres: string[] = pedido.detallePedido.map((detalle:DetallePedido) => `⚪${detalle.producto?.modelo?.nombre} ${detalle.producto?.modelo?.variante} ${detalle.producto?.talle} x${detalle.cantidad}`).join("\n");
   
     const pedidoMatTable: PedidoMatTable =  {
       id: pedido.id.toString(),
@@ -303,7 +252,6 @@ function pedidoToPedidoMatTable(pedido: any): PedidoMatTable {
       fechaCreacion: pedido.fechaCreacion,
       fechaDespacho: pedido.fechaDespacho,
       metodoDePago: pedido.metodoDePago,
-      productNombreList: listaDeNombres,
       precioVenta: pedido.precioVenta,
       precioCosto: pedido.precioCosto,
       isEnvio: pedido.isEnvio,

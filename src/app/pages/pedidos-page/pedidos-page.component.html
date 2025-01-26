@@ -64,7 +64,7 @@
                                 <br>
                                
                                 @for (detalle of row.productList; track detalle.id) {
-                                    <span class="{{disponibilidadDetalle(detalle)}}">
+                                    <span class="{{disponibilidadDetalleClass(detalle)}}">
                                         <i class="bi bi-box-fill"></i> {{ getNombre(detalle) + " (x" + detalle.cantidad + ")"}} 
                                     </span>
                                     <br>
@@ -95,9 +95,7 @@
                         <ng-container matColumnDef="Editar">
                             <th mat-header-cell *matHeaderCellDef> Editar </th>
                             <td mat-cell *matCellDef="let row">
-                                <!-- <button mat-icon-button (click)="cambiarEstado(row)"><mat-icon>edit_note</mat-icon></button>  -->
                                 <button mat-icon-button><mat-icon>edit_note</mat-icon></button>
-                                <button mat-icon-button><mat-icon>remove_red_eye</mat-icon></button>
                                
                             </td>
                         </ng-container>
