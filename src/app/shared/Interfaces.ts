@@ -23,7 +23,6 @@ export interface Producto {
     id: number;
 }
 
-// TODO: Revisar la definición de Pedido, ajustar modelos-page y store
 export interface DetallePedido {
     producto: Producto;
     cantidad: number;
